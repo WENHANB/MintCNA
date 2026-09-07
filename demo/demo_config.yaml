@@ -1,0 +1,57 @@
+# MintCNA Demo Configuration
+# Small dataset: chr1-22 from c3_N100_100kb_l1e4_c0.2_n0.1 simulation
+# Run: bash scripts/mintcna.sh --config demo/demo_config.yaml
+
+# ----- INPUT files -----
+input:
+  dna_counts: "demo/input/DNA_RC.RData"     # Y (raw counts) + gr (GRanges with gc/mapp)
+  bin_annotation: null                       # Embedded in DNA_RC.RData (gr)
+  rna_counts: "demo/input/rna_counts.tsv"    # gene x cell raw counts
+  gene_annotation: "demo/input/genes.tsv"    # gene_id, chr, start, end
+  cell_types: "demo/input/cell_types.tsv"    # root, normal columns
+  genome: "hg38"
+
+# ----- OUTPUT directory (everything the pipeline writes lands here) -----
+output:
+  dir: "demo/output/"
+  prefix: ""        # No prefix — output files are named simply (l2r_dna.csv, etc.)
+
+mode: "multi"   # "multi" for DNA+RNA, "dna" for DNA-only
+
+# ----- Pipeline parameters -----
+preprocessing:
+  gc_filter_min: 0.2
+  gc_filter_max: 0.8
+  mappability_min: 0.9
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 30        # Reduced from 100 for fast demo
+
+segmentation:
+  h: 5
+  penalty: "l2"
+  alpha: 0.30       # Threshold quantile: lower = stricter (fewer change-points), higher = looser (more change-points)
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3       # del / nor / dup
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"
