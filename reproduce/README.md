@@ -25,20 +25,15 @@ Paths inside the scripts assume the layout `Simulation/cnasim/<setting>/`, `Data
    effect injected at concordance p; `concordance/` holds the 25/50/75 % variants used in Supplementary
    Fig. 5a. `RNA_process.R`, `DNA_RNA_combine.R` build the combined input.
 
-## 02_mintcna_runs — MintCNA on the simulations
-`MintCNA.R` (DNA + RNA), `MintCNA_single.R` (DNA only), `MintCNA_rnaonly.R` (RNA only);
-`CAE_SCAtt_DNAmeth.py` is the AG-DCAE denoiser as run (latent_dim 250). SLURM wrappers included.
-In the two ablation scripts (and in `crc01/04_call_single_d250.R`) the modality being ablated is set to
-zero for the change-point scan, so the breakpoints come from the remaining modality alone; the copy-number
-states are then assigned from the fused segment means as in the full model. The scATAC-only arm of the
-multiome benchmark runs the package in `mode: dna` instead (see `05_benchmark_multiome`).
-`crc01/` — MintCNA on CRC01 (run of 2026-10-14): `01_ae_d250.py` (AG-DCAE on the 197 cells with both
-modalities, latent_dim 250), `02_combine_d250.R` (denoised DNA + raw RNA log2 ratios), `03_call_multi_d250.R`
-(change points, h = 15; calling at st = 3 and st = 5), `04_call_single_d250.R` (DNA-only ablation with its own
-change points), `05_cluster_d250.R` (subclones by the Supplementary Methods procedure), `06_compare_d250.R`
-(comparison with the earlier run); `s*.sbatch` wrappers and `timing/` (the re-timed stages behind
-Supplementary Fig. 9a). One cell (CRC01_ML3_085) is excluded after calling by the QC rule in Methods
-(smoothed log2-ratio s.d. > 3× cohort median); every downstream script applies it through `utils.R`.
+## 02_mintcna_runs — MintCNA on the simulations and on CRC01 (multi-omics mode)
+`MintCNA.R` (DNA + RNA) with its SLURM wrappers; `CAE_SCAtt_DNAmeth.py` is the AG-DCAE denoiser as run
+(latent_dim 250). `crc01/` — MintCNA on CRC01 (run of 2026-10-14): `01_ae_d250.py` (AG-DCAE on the 197 cells
+with both modalities, latent_dim 250), `02_combine_d250.R` (denoised DNA + raw RNA log2 ratios),
+`03_call_multi_d250.R` (change points, h = 15; calling at st = 3 and st = 5), `05_cluster_d250.R` (subclones by
+the Supplementary Methods procedure), `06_compare_d250.R` (comparison with the earlier run); `s*.sbatch`
+wrappers and `timing/` (the re-timed AG-DCAE stage behind Supplementary Fig. 9a). One cell (CRC01_ML3_085) is
+excluded after calling by the QC rule in Methods (smoothed log2-ratio s.d. > 3× cohort median); every
+downstream script applies it through `utils.R`.
 
 ## 03_benchmark_simulation — compared methods on the simulations
 HMMcopy, SCOPE, SCCNV, SCONCE, rcCAE, SCICoNE and FLCNA: one `<tool>.R` (or `_input.R` / `_output.R`
