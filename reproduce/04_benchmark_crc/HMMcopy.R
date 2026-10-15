@@ -89,7 +89,7 @@ cna_hmmcopy <- segments_to_matrix(ref, seg_list)
 
 ref_hmmcopy <- ref
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 code_map5 <- c(del = 1, loss = 2, nor = 3, gain = 4, amp = 5)
 plot_S_heatmap(cna_hmmcopy, ref_hmmcopy, code_map = code_map5, 
                file = "Result/CRC/Segmentation/CNV/CNA_HMMcopy_allcells_197.pdf",

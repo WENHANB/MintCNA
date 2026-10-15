@@ -12,10 +12,10 @@
 
 set.seed(7)
 O <- new.env(); P <- new.env()
-for (f in list.files("<MINTCNA_ROOT>/Code/MultiCNA",
+for (f in list.files("<REPRODUCE_DIR>/lib/MultiCNA",
                      "\\.[rR]$", full.names = TRUE))
   try(suppressWarnings(suppressMessages(sys.source(f, envir = O))), silent = TRUE)
-for (f in list.files("<MINTCNA_ROOT>/MintCNA_git/R",
+for (f in list.files("<REPRODUCE_DIR>/../MintCNA",
                      "\\.[rR]$", recursive = TRUE, full.names = TRUE))
   try(suppressWarnings(suppressMessages(sys.source(f, envir = P))), silent = TRUE)
 

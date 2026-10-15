@@ -18,7 +18,7 @@
 suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(cowplot) })
 ROOT <- "<MINTCNA_ROOT>"
 FIG5_ASSEMBLING <- TRUE
-source(file.path(ROOT, "figure4paper/figure5-multiome/code/panel_bio.R"), local = FALSE)
+source("<REPRODUCE_DIR>/07_figures/figure5-multiome/panel_bio.R", local = FALSE)
 # AFTER the source: panel_bio.R defines its own OUT and DATA, and on the first
 # build this figure was written into the main-figure folder because of it
 OUT  <- file.path(ROOT, "figure4paper/figureS-supplementary/_work/output")

@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=96gb
 #SBATCH --array=1-20
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/refresh_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/refresh_%A_%a.log
 
 # The multivariate null simulated its Gaussian with the SDs laid out along the
 # genome instead of across modalities (rep(sd_row, each = n) against a
@@ -21,7 +21,7 @@ set -euo pipefail
 S=(P59T2 P59T3 P100T1 P100T3 P103T1 P103T2 P104T1 P104T2 P105T1 P105T3
    P106T1 P106T2 P108T1 P108T2 P109T1 P109T2 P110T1 P110T2 P111T2 P111T3)
 CARE=${S[$((SLURM_ARRAY_TASK_ID-1))]}
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4
@@ -30,7 +30,7 @@ export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
 CFG=$WORK/Code/mintcna/config_${CARE}_multi.yaml
 OUT=$WORK/Result/MintCNA/${CARE}_multi
 
-Rscript Code/mintcna/refresh_null.R "$CARE" multi
+Rscript <REPRODUCE_DIR>/05_benchmark_multiome/mintcna/refresh_null.R "$CARE" multi
 for A in 0.05 0.10; do
   AA=$(printf '%03d' $(echo "$A*100" | bc | cut -d. -f1))
   TAG="fixnull_a${AA}e020"

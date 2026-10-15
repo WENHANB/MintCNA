@@ -317,8 +317,8 @@ print("Denoised DF shape:", x_denoised_df.shape)
 print("Denoised DF shape:", z_df.shape)
 
 # ---- save WITH index (row names) ----
-x_denoised_df.to_csv("<MINTCNA_ROOT>/Code/CRC/rerun_d250/timing/ae_dna_d250_197_turin.csv", index=True)
-z_df.to_csv("<MINTCNA_ROOT>/Code/CRC/rerun_d250/timing/latent_z_dna_d250_197_turin.csv", index=True)
+x_denoised_df.to_csv("<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/ae_dna_d250_197_turin.csv", index=True)
+z_df.to_csv("<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/latent_z_dna_d250_197_turin.csv", index=True)
 
 
 # In[5]:
@@ -337,7 +337,7 @@ plt.legend()
 
 plt.tight_layout()
 os.makedirs("Result", exist_ok=True)
-plt.savefig("<MINTCNA_ROOT>/Code/CRC/rerun_d250/timing/loss_curve_turin.pdf", format="pdf", bbox_inches="tight")  # saves to current working directory
+plt.savefig("<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/loss_curve_turin.pdf", format="pdf", bbox_inches="tight")  # saves to current working directory
 plt.show()
 
 

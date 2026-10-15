@@ -4,7 +4,7 @@
 #SBATCH --qos=feifeixiao-b
 #SBATCH --nodes=1 --ntasks=1 --cpus-per-task=2 --mem=32G
 #SBATCH --time=02:00:00
-#SBATCH --output=<MINTCNA_ROOT>/Code/CRC/rerun_d250/logs/combine_%j.out
-#SBATCH --error=<MINTCNA_ROOT>/Code/CRC/rerun_d250/logs/combine_%j.err
+#SBATCH --output=<REPRODUCE_DIR>/02_mintcna_runs/crc01/logs/combine_%j.out
+#SBATCH --error=<REPRODUCE_DIR>/02_mintcna_runs/crc01/logs/combine_%j.err
 set -uo pipefail; module load R/4.4; export R_LIBS_USER=<R_LIBS_USER>
-cd <MINTCNA_ROOT> && Rscript Code/CRC/rerun_d250/02_combine_d250.R; echo "combine rc=$? $(date)"
+cd <MINTCNA_ROOT> && Rscript <REPRODUCE_DIR>/02_mintcna_runs/crc01/02_combine_d250.R; echo "combine rc=$? $(date)"

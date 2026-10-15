@@ -52,12 +52,12 @@ add("median Pearson r / RMSE vs bulk WGS, MintCNA", get("accMintCNA"), get("acc_
 add("median Pearson r / RMSE vs bulk WGS, MintCNA(DNA)", get("accMintCNA(DNA)"), get("acc_d250MintCNA(DNA)"))
 ## 4. runtime ------------------------------------------------------------------------
 grab <- function(f, pat) { if (!file.exists(f)) return("pending"); x <- readLines(f, warn = FALSE); x <- x[grepl(pat, x)]; if (length(x)) paste(trimws(x), collapse = "; ") else "pending" }
-L <- "Code/CRC/rerun_d250/logs"; TL <- "Code/CRC/rerun_d250/timing/logs"
+L <- "<REPRODUCE_DIR>/02_mintcna_runs/crc01/logs"; TL <- "<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/logs"
 ae_default <- grab(file.path(L, "ae_45883922.out"), "^AE rc=")
 ae_turin   <- grab(Sys.glob(file.path(TL, "ae_turin_*.out"))[1], "^AE TIMING")
 sc_turin   <- grab(file.path(TL, "single_cps_turin_R.log"), "^TIMING single cps")
 add("runtime: AG-DCAE training (8 CPU cores)", "part of the 80 / 75 min totals (Computational Time.xlsx, composition not recorded)", sprintf("hpg-default: %s; hpg-turin: %s", ae_default, ae_turin))
 add("runtime: change points + calling, multi-omics", "80 min total (Computational Time.xlsx, 8 cores)", paste("hpg-turin:", grab(file.path(L, "call_multi_R.log"), "^RUNTIME")))
 add("runtime: change points + calling, DNA-only", "75 min total", sprintf("hpg-default: %s; hpg-turin: %s", grab(file.path(L, "call_single_R.log"), "^RUNTIME"), sc_turin))
-writeLines(c("# CRC01 before/after (2026-10-14 re-run: AG-DCAE latent_dim 250, 197 QC-passing cells, raw RNA, DNA-only run with its own change points)", "", lines), "Code/CRC/rerun_d250/before_after.md")
+writeLines(c("# CRC01 before/after (2026-10-14 re-run: AG-DCAE latent_dim 250, 197 QC-passing cells, raw RNA, DNA-only run with its own change points)", "", lines), "<REPRODUCE_DIR>/02_mintcna_runs/crc01/before_after.md")
 cat(paste(lines, collapse = "\n"), "\n")

@@ -50,7 +50,7 @@ source(file.path(RID, "copy_call.R"))
 # line for line and was verified to reproduce the original's output exactly
 # (identical counts, max abs difference 0, identical barcode columns) on a
 # 400k-fragment subset where the original could still finish.
-source(file.path(ROOT, "Code/benchmark/fast_window_matrix_dt.R"))
+source("<REPRODUCE_DIR>/lib/benchmark/fast_window_matrix_dt.R")
 window_matrix <- window_matrix_dt
 
 W_FILE    <- file.path(RID, "features", paste0("window_", RES, ".bed"))

@@ -23,7 +23,7 @@ suppressPackageStartupMessages({
   library(data.table); library(ggplot2); library(ggh4x); library(cowplot)
 })
 ROOT  <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 CACHE <- file.path(ROOT, "Simulation/results/S2_S4_F1_length/cache")
 OUT   <- Sys.getenv("FIGS24_OUT", file.path(ROOT, "figure4paper/figureS-supplementary"))
 QA    <- Sys.getenv("FIGS24_QA",  file.path(ROOT, "figure4paper/figureS-supplementary/_work/qa"))

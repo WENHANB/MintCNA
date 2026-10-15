@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
 #SBATCH --array=1-2
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/mint_full_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/mint_full_%A_%a.log
 
 # Whole MintCNA chain for one sample: bin -> input -> preprocess -> AG-DCAE
 # -> align -> scan -> call. Sized from the P111T3 measurements: AG-DCAE peaked at
@@ -17,7 +17,7 @@ SAMPLES=(P110T1 P104T1)
 CARE=${SAMPLES[$((SLURM_ARRAY_TASK_ID-1))]}
 echo "=== $CARE ==="
 
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4
@@ -35,7 +35,7 @@ cat Data/mintcna_input/logs/${CARE}_bin.log
 echo "--- 2. ATAC + RNA input, config ---"
 Rscript Code/prep/make_mintcna_input.R "$CARE"
 Rscript Code/prep/make_rna_input.R     "$CARE"
-Rscript Code/mintcna/make_config.R     "$CARE"
+Rscript <REPRODUCE_DIR>/05_benchmark_multiome/mintcna/make_config.R     "$CARE"
 CFG=$WORK/Code/mintcna/config_${CARE}_multi.yaml
 
 echo "--- 3. preprocess (ATAC + RNA l2r) ---"

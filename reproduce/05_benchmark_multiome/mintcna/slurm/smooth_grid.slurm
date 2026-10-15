@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
 #SBATCH --array=1-9
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/smgrid_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/smgrid_%A_%a.log
 
 # End-to-end test of the genome-direction smoother. The pre-segmentation matrix
 # improves a lot (P111T3 pseudobulk r 0.358 -> 0.750) but the amplitude at real
@@ -22,7 +22,7 @@ COMBOS=("P111T3 100" "P111T3 300" "P111T3 1000"
         "P104T1 100" "P104T1 300" "P104T1 1000")
 read CARE SM <<< "${COMBOS[$((SLURM_ARRAY_TASK_ID-1))]}"
 
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

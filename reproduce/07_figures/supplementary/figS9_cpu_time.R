@@ -41,7 +41,7 @@ suppressPackageStartupMessages({
   library(data.table); library(ggplot2); library(cowplot)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 DATA <- file.path(ROOT, "figure4paper/figureS-supplementary/_work/data")
 OUT  <- file.path(ROOT, "figure4paper/figureS-supplementary/_work/output")
 PDF_OUT <- file.path(ROOT, "figure4paper/figureS-supplementary")   # final PDFs live at the top level; everything else under _work/

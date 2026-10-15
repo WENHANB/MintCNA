@@ -11,8 +11,8 @@ suppressPackageStartupMessages({
   library(ComplexHeatmap); library(grid); library(data.table)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
-setwd(file.path(ROOT, "ATAC_RNA")); source("Code/eval/pearson_helpers.R")
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
+setwd(file.path(ROOT, "ATAC_RNA")); source("<REPRODUCE_DIR>/lib/eval/pearson_helpers.R")
 OUT <- file.path(ROOT, "figure4paper/figure5-multiome/qa")
 S <- "P111T3"; CHRS <- paste0("chr", 1:22); LO <- log2(0.75); HI <- log2(1.25)
 truth <- fread(sprintf("Result/truth/%s_truth_100kb.tsv.gz", S))[chr %in% CHRS]

@@ -31,7 +31,7 @@
 FIG5_ASSEMBLING <- TRUE
 suppressPackageStartupMessages({ library(ggplot2); library(cowplot); library(grid)
                                  library(svglite); library(ragg) })
-CODE <- "<MINTCNA_ROOT>/figure4paper/figure5-multiome/code"
+CODE <- "<REPRODUCE_DIR>/07_figures/figure5-multiome"
 
 # The page grid lives in grid_fig5.R and is shared with qa_panel_geometry.R, so
 # the assembly and the geometry check can never disagree about the layout.

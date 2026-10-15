@@ -83,7 +83,7 @@ res[[4]] <- score(log2((cpm + .01) / (r_med  + .01)), "DNA default: median over 
 res[[5]] <- score(log2((cpm + .01) / (r_mean + .01)), "mean over normal cells")
 
 # ---- does per-cell GC/mapp correction still earn its place? -----------------
-source("<MINTCNA_ROOT>/MintCNA_git/R/preprocessing/dna_preprocess.R")
+source("<REPRODUCE_DIR>/../MintCNA/preprocess.R")
 gcm <- GC.MAP.normalization(Yk, bk)$RC_norm
 lib2 <- colSums(gcm); cpm2 <- sweep(gcm, 2, lib2, "/") * 1e6
 p2 <- rowSums(gcm[, IR, drop = FALSE]) / sum(gcm[, IR, drop = FALSE])

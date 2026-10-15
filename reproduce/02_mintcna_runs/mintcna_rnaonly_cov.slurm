@@ -13,5 +13,5 @@
 module load R/4.4
 BASE=${1:?need BASE arg}
 echo "BASE=$BASE"
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/MintCNA_rnaonly.R "$BASE"
+Rscript <REPRODUCE_DIR>/02_mintcna_runs/MintCNA_rnaonly.R "$BASE"
 echo "mintcna_rnaonly $BASE exit=$?"

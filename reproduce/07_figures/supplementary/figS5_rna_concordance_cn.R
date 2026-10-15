@@ -27,7 +27,7 @@
 .libPaths(c("<R_LIBS_USER>", .libPaths()))
 suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(cowplot) })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- Sys.getenv("FIGS5_OUT", file.path(ROOT, "figure4paper/figureS-supplementary"))
 QA  <- Sys.getenv("FIGS5_QA",  file.path(ROOT, "figure4paper/figureS-supplementary/_work/qa"))
 DAT <- file.path(ROOT, "figure4paper/figureS-supplementary/_work/data")

@@ -14,7 +14,7 @@
 .libPaths(c("<R_LIBS_USER>", .libPaths()))
 suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(cowplot) })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 MERGED <- file.path(ROOT, "Simulation/results/tables/merged")
 HERE <- file.path(ROOT, "figure4paper/figure2-radar")
 OUT <- file.path(HERE, "output"); DATA <- file.path(HERE, "data"); QA <- file.path(HERE, "qa")

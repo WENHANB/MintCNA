@@ -21,21 +21,21 @@ BASE="${BASE_LIST[$SLURM_ARRAY_TASK_ID-1]}"
 
 echo "Step1: RNA simulation"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/simulate_rna_from_cnasim.R "$BASE"
+Rscript <REPRODUCE_DIR>/01_simulation/simulate_rna_from_cnasim.R "$BASE"
 
 echo "Step2: DNA preprocess"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/DNA_process_n0.05.R "$BASE"
+Rscript <REPRODUCE_DIR>/01_simulation/DNA_process_n0.05.R "$BASE"
 
 echo "Step3: RNA preprocess"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/RNA_process.R "$BASE"
+Rscript <REPRODUCE_DIR>/01_simulation/RNA_process.R "$BASE"
 
 echo "Step4: DNA and RNA combination"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/DNA_RNA_combine.R "$BASE"
+Rscript <REPRODUCE_DIR>/01_simulation/DNA_RNA_combine.R "$BASE"
 
 echo "Step5: MintCNA"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/MintCNA/MintCNA.R "$BASE"
+Rscript <REPRODUCE_DIR>/02_mintcna_runs/MintCNA.R "$BASE"
 

@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
 #SBATCH --array=1-2
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/mint_resume_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/mint_resume_%A_%a.log
 
 # Steps 5-6 of full_pipeline.slurm only. Job 39636410 finished AG-DCAE for both
 # samples (3h09 and 1h30) and then died on `Rscript: command not found`, so the
@@ -15,7 +15,7 @@
 set -euo pipefail
 SAMPLES=(P110T1 P104T1)
 CARE=${SAMPLES[$((SLURM_ARRAY_TASK_ID-1))]}
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

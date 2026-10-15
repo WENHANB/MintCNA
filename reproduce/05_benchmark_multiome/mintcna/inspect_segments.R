@@ -8,7 +8,7 @@
 # those two, and nothing else.
 suppressPackageStartupMessages({library(data.table); library(matrixStats)})
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
-for (f in list.files("<MINTCNA_ROOT>/MintCNA_git/R","\\.[rR]$",
+for (f in list.files("<REPRODUCE_DIR>/../MintCNA","\\.[rR]$",
                      recursive=TRUE, full.names=TRUE)) try(suppressWarnings(sys.source(f, globalenv())), silent=TRUE)
 
 sc  <- readRDS("Result/MintCNA/P111T3_multi/P111T3_scan_h5.rds")

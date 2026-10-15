@@ -20,7 +20,7 @@ BASE="${BASE_LIST[$SLURM_ARRAY_TASK_ID-1]}"
 
 START=$(date +%s)
 
-Rscript <MINTCNA_ROOT>/Simulation/code/Benchmark/HMMcopy_new.R "$BASE"
+Rscript <REPRODUCE_DIR>/03_benchmark_simulation/HMMcopy_new.R "$BASE"
 
 END=$(date +%s)
 ELAPSED=$(( (END - START) / 60 ))

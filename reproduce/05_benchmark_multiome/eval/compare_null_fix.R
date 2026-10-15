@@ -6,7 +6,7 @@
 suppressPackageStartupMessages(library(data.table))
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
 CHRS <- paste0("chr",1:22); GRID <- 5e5
-src <- readLines("Code/eval/pearson_vs_truth.R")
+src <- readLines("<REPRODUCE_DIR>/05_benchmark_multiome/eval/pearson_vs_truth.R")
 i0 <- grep("^project <- function", src); i1 <- grep("^# --- per-method pseudobulk", src)[1]
 eval(parse(text = paste(src[i0:(i1-1)], collapse="\n")))
 man <- fread("Data/meta/sample_manifest.csv"); setkey(man, care_id)

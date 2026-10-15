@@ -53,7 +53,7 @@ depth <- do.call(cbind, lapply(cov_list, \(x) x$mean)); colnames(depth) <- sampl
 
 gr$gc <- gr$gc / 100
 idx <- which(gr$gc > 0.2 & gr$gc < 0.8 & gr$mapp > 0.9)
-source(file.path(ROOT, "Code/MultiCNA/Normalization.functions.R"))
+source(file.path("<REPRODUCE_DIR>", "lib/MultiCNA/Normalization.functions.R"))
 rcn <- Seurat::NormalizeData(
   GC.MAP.normalization(Y = depth[idx, ], ref_qc = as.data.frame(gr)[idx, ])$RC_norm,
   normalization.method = "RC", scale.factor = 1e6)

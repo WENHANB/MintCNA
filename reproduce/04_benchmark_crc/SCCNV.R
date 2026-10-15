@@ -1,5 +1,5 @@
 setwd("<MINTCNA_ROOT>/")
-source("./Code/CRC/Benchmark/Function/SCCNV_Fun.R")
+source("<REPRODUCE_DIR>/04_benchmark_crc/SCCNV_Fun.R")
 load("Data/CRC/DNAmeth/dnameth_chr_all_cells_100k_gc_mapp.RData")  
 library(dplyr); library(GenomicRanges)
 
@@ -65,7 +65,7 @@ cna_sccnv <- cna_sccnv + 1L; cna_sccnv[cna_sccnv >= 5] <- 5L
 
 save(cna_sccnv, ref_sccnv, file = "<MINTCNA_ROOT>/Result/CRC/Benchmark/SCCNV.RData")
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 code_map5 <- c(del = 1, loss = 2, nor = 3, gain = 4, amp = 5)
 plot_S_heatmap(cna_sccnv, ref_sccnv, code_map = code_map5, 
                file = "Result/CRC/Segmentation/CNV/SCCNV.pdf",

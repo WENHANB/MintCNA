@@ -35,7 +35,7 @@ suppressPackageStartupMessages({
   library(ComplexHeatmap); library(circlize); library(grid); library(data.table)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- file.path(ROOT, "figure4paper/figure5-multiome/output")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 

@@ -1,9 +1,15 @@
 # Reproducing the paper
 
 Scripts that generated every result and figure in Bao, Qin & Xiao (MintCNA). They are the scripts
-that were run, copied verbatim from the analysis tree; the only edit is that absolute paths were
-replaced by placeholders. Run `bash reproduce/set_root.sh <project-root> <R-library>` once to fill
-them in. Tool versions are listed in `../environment.lock.yml` and in the Methods.
+that were run, copied from the analysis tree; the only edits are that absolute paths were replaced by
+placeholders and that paths to other scripts point inside this folder. Run
+`bash reproduce/set_root.sh <project-root> <R-library>` once: it fills in the placeholders
+(`<MINTCNA_ROOT>`, `<R_LIBS_USER>`, `<REPRODUCE_DIR>` = this folder) and seeds the figure-data
+directories under `<project-root>/figure4paper/` from `data/`. The R functions the analysis scripts
+source are in `lib/` (`lib/MultiCNA/`, the function set used for the simulation and CRC01 runs;
+`lib/eval/`, `lib/benchmark/` for the multiome evaluation); the multiome runs use the package itself
+(`../MintCNA/`, `../scripts/run_mintcna.R`). Tool versions are listed in `../environment.lock.yml` and
+in the Methods.
 
 Paths inside the scripts assume the layout `Simulation/cnasim/<setting>/`, `Data/CRC/`,
 `Result/CRC/`, `ATAC_RNA/` under the project root. The simulated datasets are on Zenodo

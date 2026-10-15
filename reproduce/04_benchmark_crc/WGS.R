@@ -35,7 +35,7 @@ gr$gc <- gr$gc/100
 
 idx <- which(gr$gc > 0.2 & gr$gc < 0.8 & gr$mapp > 0.9)
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/Normalization.functions.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/Normalization.functions.R")
 read_count_matrix_norm_1 <- GC.MAP.normalization(Y = depth_mat[idx,],
                                                  ref_qc = as.data.frame(gr)[idx,])
 ### Scale to the same RC
@@ -114,7 +114,7 @@ for (s in samples) {
 }
 
 code_map3 <- c(del = 1, nor = 2, dup = 3)
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 plot_S_heatmap(bin_state, ref, code_map = code_map3, 
                file = "Result/CRC/Segmentation/CNV/WGS.pdf",
                width = 10, height = 6)

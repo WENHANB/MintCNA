@@ -8,8 +8,8 @@
 # number is a different quantile of the two distributions and the two arms of the
 # ablation would not be thresholded comparably.
 suppressPackageStartupMessages(library(data.table))
-RR <- "<MINTCNA_ROOT>/MintCNA_git"
-for (f in list.files(file.path(RR,"R"), "\\.[rR]$", recursive=TRUE, full.names=TRUE))
+RR <- "<REPRODUCE_DIR>/.."
+for (f in list.files(file.path(RR, "MintCNA"), "\\.[rR]$", recursive=TRUE, full.names=TRUE))
   try(suppressWarnings(sys.source(f, globalenv())), silent=TRUE)
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
 a <- commandArgs(TRUE); S <- if (length(a)) a[1] else "P111T3"; set.seed(1)

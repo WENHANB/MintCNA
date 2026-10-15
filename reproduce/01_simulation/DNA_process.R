@@ -93,7 +93,7 @@ Y <- read_count_matrix; gr <- GRanges(reference_info)
 save(gr, Y, file = file.path(CNA_DIR,"DNA_RC.RData"))
 
 ### Two step normalization by GC and mappability
-source("<MINTCNA_ROOT>/Code/MultiCNA/Normalization.functions.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/Normalization.functions.R")
 read_count_matrix_norm_1 <- GC.MAP.normalization(Y = read_count_matrix,
                                                  ref_qc = reference_info)
 ### library size norm

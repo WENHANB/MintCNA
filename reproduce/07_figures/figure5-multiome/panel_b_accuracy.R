@@ -59,7 +59,7 @@ suppressPackageStartupMessages({
   library(data.table); library(ggplot2); library(cowplot)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT  <- file.path(ROOT, "figure4paper/figure5-multiome/output")
 DATA <- file.path(ROOT, "figure4paper/figure5-multiome/data")
 for (d in c(OUT, DATA)) dir.create(d, showWarnings = FALSE, recursive = TRUE)

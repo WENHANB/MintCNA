@@ -14,7 +14,7 @@
 suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(cowplot) })
 ROOT <- "<MINTCNA_ROOT>"
 FIG5_ASSEMBLING <- TRUE
-source(file.path(ROOT, "figure4paper/figure5-multiome/code/panel_bio.R"), local = FALSE)
+source("<REPRODUCE_DIR>/07_figures/figure5-multiome/panel_bio.R", local = FALSE)
 OUT <- file.path(ROOT, "figure4paper/figure5-multiome/output")
 
 cn <- merge(dz[, .(gene, d_cn, d_atac, d_rna)], Lg[, .(gene, fam)], by = "gene", all.x = TRUE)

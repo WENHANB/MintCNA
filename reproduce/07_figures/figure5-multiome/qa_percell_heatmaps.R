@@ -11,8 +11,8 @@ suppressPackageStartupMessages({
   library(ComplexHeatmap); library(grid); library(data.table); library(circlize)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
-setwd(file.path(ROOT, "ATAC_RNA")); source("Code/eval/pearson_helpers.R")
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
+setwd(file.path(ROOT, "ATAC_RNA")); source("<REPRODUCE_DIR>/lib/eval/pearson_helpers.R")
 OUT <- file.path(ROOT, "figure4paper/figure5-multiome/qa")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 

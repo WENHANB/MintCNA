@@ -4,7 +4,7 @@ print(BASE)
 CNA_DIR <- file.path("<MINTCNA_ROOT>/Simulation/cnasim", BASE)  
 
 files <- list.files(
-  "<MINTCNA_ROOT>/Code/MultiCNA",
+  "<REPRODUCE_DIR>/lib/MultiCNA",
   pattern = "\\.[rR]$",
   full.names = TRUE
 )

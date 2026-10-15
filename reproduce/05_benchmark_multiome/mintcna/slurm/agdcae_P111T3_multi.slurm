@@ -5,10 +5,10 @@
 #SBATCH --time=72:00:00
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64gb
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/agdcae_P111T3_multi_%j.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/agdcae_P111T3_multi_%j.log
 
 set -euo pipefail
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 OUT=$WORK/Result/MintCNA/P111T3_multi
 

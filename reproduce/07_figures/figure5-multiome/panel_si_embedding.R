@@ -14,7 +14,7 @@
 .libPaths(c("<R_LIBS_USER>", .libPaths()))
 suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(cowplot) })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- file.path(ROOT, "figure4paper/figure5-multiome/output")
 QC  <- file.path(ROOT, "ATAC_RNA/Result/qc")
 MM  <- 1/25.4

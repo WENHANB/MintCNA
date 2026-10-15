@@ -18,7 +18,7 @@
 FIG4_ASSEMBLING <- TRUE
 suppressPackageStartupMessages({ library(ggplot2); library(cowplot); library(grid)
                                  library(svglite); library(ragg) })
-CODE <- "<MINTCNA_ROOT>/figure4paper/figure4-CRC/code"
+CODE <- "<REPRODUCE_DIR>/07_figures/figure4-CRC"
 
 message("[1/3] panel a ..."); source(file.path(CODE, "panel_a_heatmap.R"), local = FALSE)
 message("[2/3] panel b ..."); source(file.path(CODE, "panel_b_accuracy.R"), local = FALSE)

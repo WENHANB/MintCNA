@@ -26,7 +26,7 @@ suppressPackageStartupMessages({
   library(data.table); library(ggplot2); library(patchwork); library(cowplot); library(ggrastr)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 SIM <- file.path(ROOT, "Simulation/cnasim/c3_N100_100kb_l1e4_n0.1")
 S1D <- file.path(SIM, "FigureS1/data")
 OUT <- Sys.getenv("FIGS1_OUT", file.path(ROOT, "figure4paper/figureS-supplementary"))

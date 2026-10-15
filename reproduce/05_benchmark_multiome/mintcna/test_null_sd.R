@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(data.table))
-RR <- "<MINTCNA_ROOT>/MintCNA_git"
-for (f in list.files(file.path(RR,"R"), "\\.[rR]$", recursive=TRUE, full.names=TRUE))
+RR <- "<REPRODUCE_DIR>/.."
+for (f in list.files(file.path(RR, "MintCNA"), "\\.[rR]$", recursive=TRUE, full.names=TRUE))
   try(suppressWarnings(sys.source(f, globalenv())), silent=TRUE)
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
 e <- new.env(); load("Result/MintCNA/P111T3_multi/P111T3_combined.RData", e)
@@ -13,7 +13,7 @@ cat("ROWSD", paste(round(apply(x,1,sd,na.rm=TRUE),3), collapse=" "), "\n")
 
 # deparse() rewraps the call, so the literal "rep(sd_row, each = n)" does not
 # survive it. Patch the SOURCE FILE text instead, which is what actually runs.
-raw <- readLines(file.path(RR, "R/segmentation/null.R"))
+raw <- readLines(file.path(RR, "MintCNA/segment.R"))
 stopifnot(sum(grepl("each = n", raw)) == 1)
 raw2 <- sub("each = n", "times = n", raw, fixed = TRUE)
 tmp <- tempfile(fileext = ".R"); writeLines(raw2, tmp)

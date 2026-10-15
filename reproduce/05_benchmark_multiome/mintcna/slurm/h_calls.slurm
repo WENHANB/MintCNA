@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=64gb
 #SBATCH --array=1-6
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/hcalls_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/hcalls_%A_%a.log
 
 # Call-only sweep. Job 39710954 completed every SCAN (the expensive stage, cached
 # as scan_h<h>.rds) but its call loops died when run_mintcna.R was edited under
@@ -14,7 +14,7 @@
 set -euo pipefail
 COMBOS=("P111T3 10" "P111T3 15" "P110T1 10" "P110T1 15" "P104T1 10" "P104T1 15")
 read CARE H <<< "${COMBOS[$((SLURM_ARRAY_TASK_ID-1))]}"
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

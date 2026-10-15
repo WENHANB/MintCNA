@@ -21,4 +21,4 @@ BASE_LIST=("c3_N100_100kb_l1e4_n0.05" "c3_N100_100kb_l1e4_c0.05_n0.05" "c3_N100_
 #BASE_LIST=("c3_N200_100kb_l1e4")
 BASE="${BASE_LIST[$SLURM_ARRAY_TASK_ID-1]}"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/Evaulation_all.R "$BASE"
+Rscript <REPRODUCE_DIR>/06_evaluation/Evaulation_all.R "$BASE"

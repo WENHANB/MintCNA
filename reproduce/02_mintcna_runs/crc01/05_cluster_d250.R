@@ -9,7 +9,7 @@
 #   old: the published latent_dim 200 file restricted to the same 197 cells (reference only)
 .libPaths(c("<R_LIBS_USER>", .libPaths()))
 suppressPackageStartupMessages(library(data.table))
-ROOT <- "<MINTCNA_ROOT>"; source(file.path(ROOT, "MintCNA_git/MintCNA/call.R"))
+ROOT <- "<MINTCNA_ROOT>"; source("<REPRODUCE_DIR>/../MintCNA/call.R")
 site_of <- function(x) factor(sub("^CRC\\d+_([A-Za-z]+)[0-9]*_\\d+$", "\\1", x), levels = c("PT","LN","ML","MP"))
 run <- function(file, label) {
   Z <- as.matrix(read.csv(file, row.names = 1, check.names = FALSE)); Z <- Z[rownames(Z) != "CRC01_MP1_209", , drop = FALSE]

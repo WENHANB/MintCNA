@@ -23,7 +23,7 @@ CNA_DIR <- file.path(ROOT, "Simulation/cnasim/c3_N100_100kb_l1e4")
 OUT_CSV <- file.path(ROOT, "figure4paper/figureS-supplementary/_work/data/figS5a_concordance_f1.csv")
 
 ## ---- helpers from Evaulation_all.R: function definitions only ----------------
-ex <- parse(file.path(ROOT, "Simulation/code/Evaulation_all.R"), keep.source = FALSE)
+ex <- parse(file.path("<REPRODUCE_DIR>/06_evaluation/Evaulation_all.R"), keep.source = FALSE)
 n_fun <- 0L
 for (e in ex) if (is.call(e) && identical(e[[1]], as.name("<-")) && is.call(e[[3]]) &&
                   identical(e[[3]][[1]], as.name("function"))) { eval(e, envir = globalenv()); n_fun <- n_fun + 1L }

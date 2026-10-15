@@ -10,7 +10,7 @@ print(BASE)
 CNA_DIR <- file.path("<MINTCNA_ROOT>/Simulation/cnasim", BASE)
 
 load(file.path(CNA_DIR,"combined_multiomic_100kb_allcells.Rdata"))
-files <- list.files("<MINTCNA_ROOT>/Code/MultiCNA",
+files <- list.files("<REPRODUCE_DIR>/lib/MultiCNA",
                     pattern = "\\.[rR]$", full.names = TRUE)
 invisible(lapply(files, source))
 

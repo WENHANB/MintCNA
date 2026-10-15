@@ -26,8 +26,8 @@ suppressPackageStartupMessages({
   library(ggplot2); library(patchwork); library(data.table); library(cowplot)
 })
 ROOT <- "<MINTCNA_ROOT>"
-source(file.path(ROOT, "Result/CRC/figures/scripts/utils.R"))
-source(file.path(ROOT, "figure4paper/shared/fig_palette.R"))
+source("<REPRODUCE_DIR>/07_figures/figure4-CRC/utils.R")
+source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- file.path(ROOT, "figure4paper/figure4-CRC/output")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 

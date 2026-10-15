@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=72gb
 #SBATCH --array=1-3
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/cross_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/cross_%A_%a.log
 
 # h and smoothing are NOT separable -- both set an effective smoothing scale --
 # so the two earlier grids found conditional optima, not the joint one. DLM was
@@ -26,7 +26,7 @@ COMBOS=(
   "P104T1 10 100" "P104T1 15 100" "P104T1 10 1000" "P104T1 15 1000")
 read CARE H SM <<< "${COMBOS[$((SLURM_ARRAY_TASK_ID-1))]}"
 
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

@@ -131,7 +131,7 @@ cna_sconce <- CN + 1L; cna_sconce[cna_sconce >= 5] <- 5L
 
 save(cna_sconce, ref_sconce, file = "<MINTCNA_ROOT>/Result/CRC/Benchmark/SCONCE.RData")
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 code_map5 <- c(del = 1, loss = 2, nor = 3, gain = 4, amp = 5)
 plot_S_heatmap(cna_sconce, ref_sconce, code_map = code_map5, 
                file = "Result/CRC/Segmentation/CNV/SCONCE.pdf",

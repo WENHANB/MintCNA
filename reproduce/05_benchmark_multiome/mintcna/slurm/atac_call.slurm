@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=96gb
 #SBATCH --array=1-20
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/ataccall_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/ataccall_%A_%a.log
 
 # Call the cached ATAC-only scans.
 #
@@ -23,13 +23,13 @@ set -euo pipefail
 S=(P59T2 P59T3 P100T1 P100T3 P103T1 P103T2 P104T1 P104T2 P105T1 P105T3
    P106T1 P106T2 P108T1 P108T2 P109T1 P109T2 P110T1 P110T2 P111T2 P111T3)
 CARE=${S[$((SLURM_ARRAY_TASK_ID-1))]}
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4
 export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
-Rscript Code/mintcna/make_config_atac.R "$CARE"          # picks up alpha = 0.05
+Rscript <REPRODUCE_DIR>/05_benchmark_multiome/mintcna/make_config_atac.R "$CARE"          # picks up alpha = 0.05
 CFG=$WORK/Code/mintcna/config_${CARE}_atac.yaml
 OUT=$WORK/Result/MintCNA/${CARE}_atac
 [ -s "$OUT/${CARE}_scan_h15.rds" ] || { echo "no scan for $CARE"; exit 1; }

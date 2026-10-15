@@ -71,7 +71,7 @@ for (i in 1:ncol(log2Rdata)){
 cna_flcna <- CNA.matrix.flcna; ref_flcna <- as.data.frame(QCobject$ref)
 save(cna_flcna, ref_flcna, file = "<MINTCNA_ROOT>/Result/CRC/Benchmark/FLCNA.RData")
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 code_map5 <- c(del = 1, loss = 2, nor = 3, gain = 4, amp = 5); colnames(ref_flcna)[1] <- "chr"
 plot_S_heatmap(CNA.matrix.flcna, ref_flcna, code_map = code_map5,
                file = "Result/CRC/Segmentation/CNV/FLCNA_l2r.pdf",

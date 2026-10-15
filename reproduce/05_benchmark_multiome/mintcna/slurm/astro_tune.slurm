@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
 #SBATCH --array=1-6
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/astrot_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/astrot_%A_%a.log
 
 # MintCNA under-calls on the astrocytomas: recall 0.360 (gain) and 0.391 (loss)
 # against 0.725 and 0.643 on the oligodendrogliomas, while PRECISION is higher
@@ -27,7 +27,7 @@
 set -euo pipefail
 S=(P59T2 P59T3 P104T1 P104T2 P106T1 P106T2)
 CARE=${S[$((SLURM_ARRAY_TASK_ID-1))]}
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

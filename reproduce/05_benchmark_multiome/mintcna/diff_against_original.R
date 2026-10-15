@@ -6,8 +6,8 @@
 # multiMissInspect_scores already turned out to differ in a way that changes the
 # result, not just the speed. This finds the rest before anything is run.
 
-ORIG <- "<MINTCNA_ROOT>/Code/MultiCNA"
-PKG  <- "<MINTCNA_ROOT>/MintCNA_git/R"
+ORIG <- "<REPRODUCE_DIR>/lib/MultiCNA"
+PKG  <- "<REPRODUCE_DIR>/../MintCNA"
 
 grab <- function(dir) {
   e <- new.env()

@@ -5,7 +5,7 @@ load("Data/CRC/combined_multiomic_100kb_allcells_AE_d250.Rdata")   # d=250 re-ru
 load("Data/CRC/DNAmeth/cell_keep.RData")
 
 files <- list.files(
-  "<MINTCNA_ROOT>/Code/MultiCNA",
+  "<REPRODUCE_DIR>/lib/MultiCNA",
   pattern = "\\.[rR]$",
   full.names = TRUE
 )

@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
 #SBATCH --array=1-12
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/astroh_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/astroh_%A_%a.log
 
 # h was chosen on two Oligodendroglioma samples and one Astrocytoma, and MintCNA
 # then lost to AtaCNV on all six Astrocytomas while winning 8 of 14
@@ -20,7 +20,7 @@ S=(P59T2 P59T3 P104T1 P104T2 P106T1 P106T2)
 H=(5 10)
 i=$((SLURM_ARRAY_TASK_ID-1)); CARE=${S[$((i/2))]}; HH=${H[$((i%2))]}
 
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4

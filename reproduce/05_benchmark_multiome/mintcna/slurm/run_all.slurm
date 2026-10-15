@@ -4,7 +4,7 @@
 #SBATCH --qos=feifeixiao-b
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=96gb
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/mint_all_%A_%a.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/mint_all_%A_%a.log
 
 # The remaining 17 CARE samples at the LOCKED configuration. Nothing is swept
 # here: h = 15, alpha = 0.10, eps = 0.20, st = 3, no genome smoothing, all read
@@ -18,7 +18,7 @@ set -euo pipefail
 SAMPLES=($SAMPLE_LIST)
 CARE=${SAMPLES[$((SLURM_ARRAY_TASK_ID-1))]}
 
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 cd "$WORK"
 module load R/4.4
@@ -42,7 +42,7 @@ else echo "--- 1. counts already binned, skipping ---"; fi
 echo "--- 2. ATAC + RNA input, config ---"
 Rscript Code/prep/make_mintcna_input.R "$CARE"
 Rscript Code/prep/make_rna_input.R     "$CARE"
-Rscript Code/mintcna/make_config.R     "$CARE"
+Rscript <REPRODUCE_DIR>/05_benchmark_multiome/mintcna/make_config.R     "$CARE"
 
 echo "--- 3. preprocess ---"
 Rscript "$REPO/scripts/run_mintcna.R" --config "$CFG" --stage preprocess

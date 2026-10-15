@@ -60,7 +60,7 @@ cna_scope <- iCN; ref_scope <- as.data.frame(ref_gr)
 
 save(cna_scope, ref_scope, file = "<MINTCNA_ROOT>/Result/CRC/Benchmark/SCOPE_allcells.RData")
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/CNAout.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/CNAout.R")
 code_map5 <- c(del = 1, loss = 2, nor = 3, gain = 4, amp = 5)
 plot_S_heatmap(cna_scope, ref_scope, code_map = code_map5, 
                file = "Result/CRC/Segmentation/CNV/SCOPE_allcells.pdf",

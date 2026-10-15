@@ -7,12 +7,12 @@
 #   Usage: make_config_atac.R <care_id>
 args <- commandArgs(trailingOnly = TRUE); S <- args[1]
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
-tpl <- readLines(sprintf("Code/mintcna/config_%s_multi.yaml", S))
+tpl <- readLines(sprintf("<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/config_%s_multi.yaml", S))
 tpl <- sub('^mode: "multi".*$', 'mode: "dna"                       # ATAC only: the ablation arm', tpl)
 tpl <- sub(sprintf('  dir:    "Result/MintCNA/%s_multi"', S),
            sprintf('  dir:    "Result/MintCNA/%s_atac"',  S), tpl, fixed = TRUE)
 stopifnot(any(grepl('^mode: "dna"', tpl)), any(grepl(sprintf("%s_atac", S), tpl)))
-f <- sprintf("Code/mintcna/config_%s_atac.yaml", S)
+f <- sprintf("<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/config_%s_atac.yaml", S)
 writeLines(tpl, f)
 
 src <- sprintf("Result/MintCNA/%s_multi", S); dst <- sprintf("Result/MintCNA/%s_atac", S)

@@ -22,7 +22,7 @@ suppressPackageStartupMessages({library(data.table)})
 ROOT <- "<MINTCNA_ROOT>/ATAC_RNA"
 setwd(ROOT)
 CHRS <- paste0("chr", 1:22)
-source("Code/eval/pearson_helpers.R")
+source("<REPRODUCE_DIR>/lib/eval/pearson_helpers.R")
 
 args <- commandArgs(trailingOnly = TRUE)
 SAMPLES <- if (length(args)) args else c("P103T2", "P105T1", "P59T2", "P110T1", "P104T1")

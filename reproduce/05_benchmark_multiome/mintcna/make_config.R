@@ -6,8 +6,8 @@
 args <- commandArgs(trailingOnly = TRUE)
 S <- args[1]
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
-tpl <- readLines("Code/mintcna/config_P111T3_multi.yaml")
+tpl <- readLines("<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/config_P111T3_multi.yaml")
 out <- gsub("P111T3", S, tpl, fixed = TRUE)
-f <- sprintf("Code/mintcna/config_%s_multi.yaml", S)
+f <- sprintf("<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/config_%s_multi.yaml", S)
 writeLines(out, f)
 cat("wrote", f, "\n")

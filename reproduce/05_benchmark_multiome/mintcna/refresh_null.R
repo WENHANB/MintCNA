@@ -10,8 +10,8 @@
 #
 #   Usage: refresh_null.R <care_id> [suffix]     suffix: multi (default) or atac
 suppressPackageStartupMessages(library(data.table))
-RR <- "<MINTCNA_ROOT>/MintCNA_git"
-for (f in list.files(file.path(RR, "R"), "\\.[rR]$", recursive = TRUE, full.names = TRUE))
+RR <- "<REPRODUCE_DIR>/.."
+for (f in list.files(file.path(RR, "MintCNA"), "\\.[rR]$", recursive = TRUE, full.names = TRUE))
   try(suppressWarnings(sys.source(f, globalenv())), silent = TRUE)
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
 a <- commandArgs(TRUE); S <- a[1]; SUF <- if (length(a) > 1) a[2] else "multi"

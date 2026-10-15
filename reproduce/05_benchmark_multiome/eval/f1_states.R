@@ -37,7 +37,7 @@
 suppressPackageStartupMessages(library(data.table))
 setwd("<MINTCNA_ROOT>/ATAC_RNA")
 CHRS <- paste0("chr", 1:22)
-source("Code/eval/pearson_helpers.R")     # percell_matrices(): every method as
+source("<REPRODUCE_DIR>/lib/eval/pearson_helpers.R")     # percell_matrices(): every method as
                                           # cells x truth-bins, in log2
 LO <- log2(0.75); HI <- log2(1.25)
 man <- fread("Data/meta/sample_manifest.csv"); setkey(man, care_id)

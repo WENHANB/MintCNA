@@ -17,7 +17,7 @@ SFX <- sprintf("_p%d_2026-10-09", K)
 
 load(file.path(CNA_DIR, sprintf("combined_multiomic_100kb_allcells_p%d.Rdata", K)))
 files <- list.files(
-  "<MINTCNA_ROOT>/Code/MultiCNA",
+  "<REPRODUCE_DIR>/lib/MultiCNA",
   pattern = "\\.[rR]$",
   full.names = TRUE
 )

@@ -5,9 +5,9 @@
 #SBATCH --time=04:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8gb
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/mint_st5_P111T3_%j.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/mint_st5_P111T3_%j.log
 set -euo pipefail
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 CFG=$WORK/Code/mintcna/config_P111T3_multi.yaml
 module load R/4.4

@@ -14,7 +14,7 @@ W    <- if (length(args)) as.numeric(args[1]) else 5e5
 CHRS <- paste0("chr", 1:22)
 TAG  <- if (W >= 1e6) sprintf("%gmb", W / 1e6) else sprintf("%gkb", W / 1e3)
 
-g <- fread(file.path(ROOT, "MintCNA_git/ref/hg38_gcmapp_5kb.csv.gz"))[chr %in% CHRS]
+g <- fread("<REPRODUCE_DIR>/../ref/hg38_gcmapp_5kb.csv.gz")[chr %in% CHRS]
 g[, bin := start %/% W]
 b <- g[, .(gc         = mean(gc,   na.rm = TRUE),
            mapp       = mean(mapp, na.rm = TRUE),

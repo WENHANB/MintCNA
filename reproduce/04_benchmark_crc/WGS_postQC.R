@@ -96,7 +96,7 @@ cna_dnacopy_raw <- T0
 cna_dnacopy     <- T1
 ref_dnacopy     <- e$ref_dnacopy
 attr(cna_dnacopy, "postQC") <- list(min_bins = MIN_BINS, gap_mb = GAP_MB,
-                                    script = "Code/CRC/Evaluation/WGS_postQC.R")
+                                    script = "<REPRODUCE_DIR>/04_benchmark_crc/WGS_postQC.R")
 save(cna_dnacopy, cna_dnacopy_raw, ref_dnacopy, file = file.path(BD, "DNAcopy_qc.RData"))
 fwrite(removed[order(-n_bins)], file.path(BD, "wgs_postqc_removed.csv"))
 cat("wrote:", file.path(BD, "DNAcopy_qc.RData"), "\n")

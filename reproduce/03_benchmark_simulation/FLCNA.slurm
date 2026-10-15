@@ -18,4 +18,4 @@ module load R/4.4
 BASE_LIST=("c4_N250_100kb_l1e4" "c6_N500_100kb_l1e4")
 BASE="${BASE_LIST[$SLURM_ARRAY_TASK_ID-1]}"
 
-Rscript <MINTCNA_ROOT>/Simulation/code/Benchmark/FLCNA.R "$BASE"
+Rscript <REPRODUCE_DIR>/03_benchmark_simulation/FLCNA.R "$BASE"

@@ -5,13 +5,13 @@
 #SBATCH --time=72:00:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=200gb
-#SBATCH --output=<MINTCNA_ROOT>/ATAC_RNA/Code/mintcna/slurm/mint_scan_P111T3_%j.log
+#SBATCH --output=<REPRODUCE_DIR>/05_benchmark_multiome/mintcna/slurm/mint_scan_P111T3_%j.log
 
 # align (cheap) + scan (the expensive, alpha-independent half).
 # Calling is NOT run here: it takes seconds off the scan checkpoint, so it is a
 # separate command you can repeat for every alpha / eps you want to try.
 set -euo pipefail
-REPO=<MINTCNA_ROOT>/MintCNA_git
+REPO=<REPRODUCE_DIR>/..
 WORK=<MINTCNA_ROOT>/ATAC_RNA
 CFG=$WORK/Code/mintcna/config_P111T3_multi.yaml
 

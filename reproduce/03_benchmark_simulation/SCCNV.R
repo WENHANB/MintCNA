@@ -1,5 +1,5 @@
 setwd("<MINTCNA_ROOT>/")
-source("./Code/CRC/Benchmark/Function/SCCNV_Fun.R")
+source("<REPRODUCE_DIR>/04_benchmark_crc/SCCNV_Fun.R")
 
 library(dplyr); library(GenomicRanges); library(data.table)
 

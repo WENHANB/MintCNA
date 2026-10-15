@@ -9,7 +9,7 @@ library(cluster)
 library(uwot) 
 library(ggplot2)
 
-source("<MINTCNA_ROOT>/Code/MultiCNA/cluster.R")
+source("<REPRODUCE_DIR>/lib/MultiCNA/cluster.R")
 
 l2r <- read.csv(file.path(CNA_DIR,"l2r_smoothed_all_cells_100kb.csv"), row.names = 1)
 

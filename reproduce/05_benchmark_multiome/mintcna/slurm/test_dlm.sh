@@ -11,4 +11,4 @@ set -euo pipefail
 cd <MINTCNA_ROOT>/ATAC_RNA
 module load R/4.4
 export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
-S=(P111T3 P110T1); Rscript Code/mintcna/test_dlm.R "${S[$((SLURM_ARRAY_TASK_ID-1))]}"
+S=(P111T3 P110T1); Rscript <REPRODUCE_DIR>/05_benchmark_multiome/mintcna/test_dlm.R "${S[$((SLURM_ARRAY_TASK_ID-1))]}"

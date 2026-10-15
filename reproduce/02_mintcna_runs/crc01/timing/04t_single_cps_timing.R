@@ -4,7 +4,7 @@ load("Data/CRC/combined_multiomic_100kb_allcells_AE_d250.Rdata")   # d=250 re-ru
 load("Data/CRC/DNAmeth/cell_keep.RData")
 
 files <- list.files(
-  "<MINTCNA_ROOT>/Code/MultiCNA",
+  "<REPRODUCE_DIR>/lib/MultiCNA",
   pattern = "\\.[rR]$",
   full.names = TRUE
 )
@@ -66,14 +66,14 @@ summary(as.numeric(lapply(filtered_multiomic_list_qn_all, function(x)sd(x[,3], n
 ## Change-points detection
 #cell_name <- "CRC01_PT1_231"
 h <- 15
-if (file.exists("Code/CRC/rerun_d250/timing/h15_AE_197_single_d250_turin.RData")) {
+if (file.exists("<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/h15_AE_197_single_d250_turin.RData")) {
   # rebuild the `cell` matrix the downstream code expects (last cell of the list, as in the loop)
   cell <- filtered_multiomic_list_qn_all[[length(filtered_multiomic_list_qn_all)]]
   rownames(cell) <- cell[,1]; cell <- cell[,-1]; storage.mode(cell) <- "numeric"; cell <- t(cell)
   cell[1,] <- c(0.001,rep(0,ncol(cell)-1))
   chr_length <- as.integer(table(factor(ref$chr, levels = unique(ref$chr))))
-  load("Code/CRC/rerun_d250/timing/h15_AE_197_single_d250_turin.RData")   # cps_track + timing_cell
-  cat("change points already computed -> loaded Code/CRC/rerun_d250/timing/h15_AE_197_single_d250_turin.RData\n")
+  load("<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/h15_AE_197_single_d250_turin.RData")   # cps_track + timing_cell
+  cat("change points already computed -> loaded <REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/h15_AE_197_single_d250_turin.RData\n")
 } else {
 timing_cell <- data.frame(cell = character(), seconds = numeric(), stringsAsFactors = FALSE)
 cps_track <- list()
@@ -107,7 +107,7 @@ for (cell_name in names(filtered_multiomic_list)) {
   ))
 }
 mean(timing_cell$seconds)
-save(cps_track, timing_cell, file="Code/CRC/rerun_d250/timing/h15_AE_197_single_d250_turin.RData")
+save(cps_track, timing_cell, file="<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/h15_AE_197_single_d250_turin.RData")
 cat(sprintf("TIMING single cps %.1f min on %s\n", sum(timing_cell$seconds)/60, Sys.info()[["nodename"]])); quit(save = "no")
 }
 
