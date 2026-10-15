@@ -1,0 +1,8 @@
+method,n,median_min,min,max,cores,peak_gb
+MintCNA,17,145.3,24,314.8,32,41.3
+AtaCNV,20,5.5,2.5,10.2,4,4.8
+Copy-scAT,20,1.7,0.8,2.9,4,6
+RIDDLER,20,16.5,5.6,36.7,2,7.1
+epiAneufinder,20,241.4,65.8,538.2,8,93.1
+inferCNV,20,2.4,1.4,4.3,4,7.3
+CONGAS+,20,12.7,8.5,279.5,8,11.8
