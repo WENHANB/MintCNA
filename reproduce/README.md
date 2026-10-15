@@ -28,6 +28,10 @@ Paths inside the scripts assume the layout `Simulation/cnasim/<setting>/`, `Data
 ## 02_mintcna_runs — MintCNA on the simulations
 `MintCNA.R` (DNA + RNA), `MintCNA_single.R` (DNA only), `MintCNA_rnaonly.R` (RNA only);
 `CAE_SCAtt_DNAmeth.py` is the AG-DCAE denoiser as run (latent_dim 250). SLURM wrappers included.
+In the two ablation scripts (and in `crc01/04_call_single_d250.R`) the modality being ablated is set to
+zero for the change-point scan, so the breakpoints come from the remaining modality alone; the copy-number
+states are then assigned from the fused segment means as in the full model. The scATAC-only arm of the
+multiome benchmark runs the package in `mode: dna` instead (see `05_benchmark_multiome`).
 `crc01/` — MintCNA on CRC01 (run of 2026-10-14): `01_ae_d250.py` (AG-DCAE on the 197 cells with both
 modalities, latent_dim 250), `02_combine_d250.R` (denoised DNA + raw RNA log2 ratios), `03_call_multi_d250.R`
 (change points, h = 15; calling at st = 3 and st = 5), `04_call_single_d250.R` (DNA-only ablation with its own

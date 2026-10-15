@@ -63,7 +63,14 @@ gausianMixure <- function(x, cp, priors, L = 100, st,
                           means, sum.x.sq, N, len, st,
                           lower = lower, upper = upper,
                           eps0 = eps0, eps1 = eps1)
-    if (abs(sum(para.new$mu.new - para.old$mu.new)) < 1e-6) {
+    # A component that no segment supports (possible for a weak single modality)
+    # gets NaN moments in the M-step; keep it where it was rather than let the
+    # convergence test fail on NA.
+    for (nm_ in c("p.new", "mu.new", "sigma.new")) {
+      bad_ <- !is.finite(para.new[[nm_]])
+      if (any(bad_)) para.new[[nm_]][bad_] <- para.old[[nm_]][bad_]
+    }
+    if (isTRUE(abs(sum(para.new$mu.new - para.old$mu.new)) < 1e-6)) {
       message("Converged at iteration ", iter)
       break
     }
