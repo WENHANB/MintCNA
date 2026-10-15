@@ -112,6 +112,12 @@ show <- rbind(tf[fam != "other" & fdr < 0.05][order(-abs(x))],
               head(tf[fam == "other"][order(-lp)], 3),
               tf[fam == "other" & TF == "ASCL1"])
 show <- show[!duplicated(motif)]
+# 2026-10-15: NFIX(var.2) (x -0.19, lp 2.7) and NFIA (x +0.15, lp 1.4) sit either side of zero just above the
+# FDR line and repel parked both labels on the same spot between them. Explicit nudges: NFIX(var.2) straight
+# left into the gap between NFIC(var.2) and NFIC::TLX1, NFIA right and below the dashed line.
+show[, `:=`(nx = 0, ny = 0)]
+show[TF == "NFIX(var.2)", `:=`(nx = -0.26, ny = 0)]
+show[TF == "NFIA",        `:=`(nx =  0.15, ny = -0.9)]
 p_vol <- ggplot(tf, aes(x, lp)) +
   geom_hline(yintercept = -log10(0.05), linewidth = 0.22, linetype = "22", colour = "grey70") +
   geom_vline(xintercept = 0, linewidth = 0.22, colour = "grey70") +
@@ -132,9 +138,10 @@ p_vol <- ggplot(tf, aes(x, lp)) +
   # ASCL1 printed straight through MYOG. force is raised because the labels now
   # have to resolve against each other as well as against the points.
   geom_text_repel(data = show, aes(label = TF, colour = fam), size = PT_SMALL/.pt,
+                  position = position_nudge_repel(x = show$nx, y = show$ny),
                   segment.size = 0.16, segment.colour = "grey65", min.segment.length = 0,
-                  box.padding = 0.30, point.padding = 0.12, max.overlaps = Inf,
-                  force = 3, force_pull = 0.6, seed = 7, show.legend = FALSE) +
+                  box.padding = 0.38, point.padding = 0.12, max.overlaps = Inf,
+                  force = 5, force_pull = 0.5, max.iter = 50000, seed = 11, show.legend = FALSE) +   # 2026-10-15: NFIX(var.2) and NFIA overlapped at force 3 / seed 7
   # THE GREY IS IN THE LEGEND, and it has to be. Colour here does not encode a
   # lineage, it encodes PROVENANCE: coloured = named in tf_motif_subclone.R before
   # the test was run, grey = everything else. Without a third key entry a reader
@@ -146,7 +153,7 @@ p_vol <- ggplot(tf, aes(x, lp)) +
                                  `AC lineage`  = STATE_COLORS[["AC-like"]],
                                  `other` = "grey55"),
                       breaks = c("OPC lineage", "AC lineage", "other"),
-                      labels = c("expected in C2 (OPC TFs)", "expected in C1 (AC TFs)", "not prespecified"),
+                      labels = c("expected in C2 (OPC TFs)", "expected in C1 (AC TFs)", "other motifs"),
                       name = NULL, na.translate = FALSE) +
   # Symmetric about zero because the quantity is a difference, but only 8% wider
   # than the data. An earlier 35% pad was added to stop a label clipping and left
