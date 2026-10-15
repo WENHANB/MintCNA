@@ -25,7 +25,7 @@ suppressPackageStartupMessages({
 })
 ROOT <- "<MINTCNA_ROOT>"
 source("<REPRODUCE_DIR>/07_figures/figure4-CRC/utils.R")
-source(file.path(ROOT, "MintCNA_git/MintCNA/call.R"))   # cluster_latent_kmeans moved here in the repo refactor
+source("<REPRODUCE_DIR>/../MintCNA/call.R")   # cluster_latent_kmeans moved here in the repo refactor
 source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- file.path(ROOT, "figure4paper/figure4-CRC/output")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
