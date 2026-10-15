@@ -2,7 +2,6 @@
 # Created with: conda env create -f environment.yml; exported with: conda env export --no-builds
 # InspectChangepoint 1.2 was then installed from CRAN inside the environment.
 name: mintcna
-  /home/wenhan.bao/rtmp/claude-8326/-orange-feifeixiao-wenhan-bao-Multi-omics/2aeb1fcd-fb41-4d59-9fe7-3cfe57ae443f/scratchpad/lockrun/mintcna_env
 channels:
   - conda-forge
   - bioconda
@@ -258,4 +257,3 @@ dependencies:
   - yq=4.1.2
   - zlib-ng=2.3.3
   - zstd=1.5.7
-  /home/wenhan.bao/rtmp/claude-8326/-orange-feifeixiao-wenhan-bao-Multi-omics/2aeb1fcd-fb41-4d59-9fe7-3cfe57ae443f/scratchpad/lockrun/mintcna_env
