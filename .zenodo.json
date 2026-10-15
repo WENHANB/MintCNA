@@ -1,0 +1,17 @@
+{
+  "title": "MintCNA: copy number alteration profiling from single-cell DNA, ATAC and paired RNA data",
+  "upload_type": "software",
+  "description": "MintCNA calls copy number alterations in single cells from scDNA-seq read counts or scATAC-seq fragment counts, optionally combined with scRNA-seq from the same cells. It denoises the count matrix with an attention-guided denoising convolutional autoencoder (AG-DCAE), finds breakpoints with a multivariate change-point scan and assigns copy-number states with a truncated Gaussian mixture model (TGMM). This archive is the release of the GitHub repository that accompanies Bao, Qin & Xiao, MintCNA: A Unified Framework for Integrative Copy Number Profiling with Single-Cell Multi-Omics Data. The reproduce/ folder holds the scripts behind every result and figure of the paper.",
+  "creators": [
+    {"name": "Bao, Wenhan", "affiliation": "Department of Biostatistics, College of Public Health and Health Professions and College of Medicine, University of Florida"},
+    {"name": "Qin, Fei", "affiliation": "Division of Cancer Epidemiology and Genetics, National Cancer Institute"},
+    {"name": "Xiao, Feifei", "affiliation": "Department of Biostatistics, College of Public Health and Health Professions and College of Medicine, University of Florida"}
+  ],
+  "license": "GPL-3.0",
+  "access_right": "open",
+  "keywords": ["copy number alteration", "single-cell", "scDNA-seq", "scATAC-seq", "scRNA-seq", "multi-omics", "change-point detection", "denoising autoencoder"],
+  "related_identifiers": [
+    {"identifier": "10.64898/2026.06.26.734559", "relation": "isSupplementTo", "resource_type": "publication-preprint", "scheme": "doi"},
+    {"identifier": "https://github.com/WENHANB/MintCNA", "relation": "isDerivedFrom", "scheme": "url"}
+  ]
+}

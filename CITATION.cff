@@ -4,6 +4,8 @@ title: "MintCNA"
 type: software
 license: GPL-3.0
 repository-code: "https://github.com/WENHANB/MintCNA"
+version: 1.0.0
+date-released: "2026-10-15"
 authors:
   - family-names: Bao
     given-names: Wenhan
