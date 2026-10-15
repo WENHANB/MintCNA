@@ -25,7 +25,7 @@ suppressPackageStartupMessages({
 })
 ROOT <- "<MINTCNA_ROOT>"
 source("<REPRODUCE_DIR>/07_figures/figure4-CRC/utils.R")
-source("<REPRODUCE_DIR>/../MintCNA/call.R")   # cluster_latent_kmeans moved here in the repo refactor
+source(file.path(ROOT, "MintCNA_git/MintCNA/call.R"))   # cluster_latent_kmeans moved here in the repo refactor
 source("<REPRODUCE_DIR>/07_figures/shared/fig_palette.R")
 OUT <- file.path(ROOT, "figure4paper/figure4-CRC/output")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
@@ -37,7 +37,13 @@ EXCL <- strsplit(Sys.getenv("CRC_EXCLUDE", "CRC01_ML3_085"), ",")[[1]]; EXCL <- 
 if (length(EXCL)) cna <- cna[, !colnames(cna) %in% EXCL, drop = FALSE]
 NEU <- 3L; stopifnot(all(cna %in% 1:5))
 
-LATENT_FILE <- if (SFX == "_d250") "latent_z_dna_d250_197.csv" else "latent_z_dna.csv"
+CLUSTER <- Sys.getenv("CRC_CLUSTER", "published")   # "published" (default since 2026-10-15), "documented", or "fig4a" (the pre-2026-10-14 path)
+# Author decision 2026-10-15: the calls are the d = 250 re-run, but the clone labels are the PUBLISHED ones, i.e.
+# k-means with K = 2 on the unscaled 200-dimensional latent of the February-2026 AG-DCAE training (198 cells),
+# restricted to the 196 cells drawn. That latent separates the chr5-loss cells better than the d = 250 one
+# (12 of 21 in C2 vs 9 of 21; see Code/CRC/rerun_d250/cluster_options.md). On the 196 cells the recipe gives
+# exactly the published 17-cell clone without any outlier step (CRC01_ML3_085 is excluded by the QC rule).
+LATENT_FILE <- if (CLUSTER == "published" || SFX != "_d250") "latent_z_dna.csv" else "latent_z_dna_d250_197.csv"
 latent <- as.matrix(read.csv(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r", LATENT_FILE),
                              row.names = 1, check.names = FALSE))
 # scale_Z = FALSE. The packaged default z-scores every latent dimension before
@@ -50,7 +56,12 @@ latent <- as.matrix(read.csv(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r", L
 #   scale_Z = TRUE   ARI 0.460, precision 0.55, small-cluster silhouette -0.201
 #   scale_Z = FALSE  ARI 0.626, precision 0.76, small-cluster silhouette -0.104
 # Strictly better on every axis, including K = 2 stability (0.781 vs 0.755).
-if (Sys.getenv("CRC_CLUSTER", "documented") == "documented") {
+if (CLUSTER == "published") {
+  latent <- latent[intersect(rownames(latent), colnames(cna)), , drop = FALSE]
+  r1 <- cluster_latent_kmeans(latent, seed = 1, K_min = 2, K_max = 2, scale_Z = FALSE)
+  cat(sprintf("published clustering: %d cells of the %d-dim latent, K = 2 fixed, unscaled; sizes %s\n", nrow(latent), ncol(latent), paste(table(r1$clusters), collapse = "/")))
+  cl <- r1$clusters
+} else if (CLUSTER == "documented") {
   # Supplementary Methods procedure, no outlier removal: standardised latent, PCA >= 95 %
   # variance capped at 20 PCs, K by subsampling stability (200 x 80 %, mean pairwise ARI,
   # one-SE rule), final k-means with 200 starts -- the package defaults.

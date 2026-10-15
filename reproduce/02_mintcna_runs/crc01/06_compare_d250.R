@@ -4,7 +4,7 @@
 .libPaths(c("<R_LIBS_USER>", .libPaths()))
 suppressPackageStartupMessages(library(data.table))
 ROOT <- "<MINTCNA_ROOT>"; setwd(ROOT)
-source("Result/CRC/figures/scripts/utils.R"); source("MintCNA_git/MintCNA/call.R")
+source("<REPRODUCE_DIR>/07_figures/figure4-CRC/utils.R"); source("<REPRODUCE_DIR>/../MintCNA/call.R")
 B <- "Result/CRC/Benchmark"
 site_of <- function(x) factor(sub("^CRC\\d+_([A-Za-z]+)[0-9]*_\\d+$", "\\1", x), levels = c("PT","LN","ML","MP"))
 arm_loss <- function(cna, ref, chr, lo = -Inf, hi = Inf) {   # fraction of arm bins called loss (state 1) > 0.5
@@ -38,7 +38,7 @@ desc <- function(cl, cna, ref) { s <- site_of(names(cl)); out <- c()
     apc <- ref$chr == "5" & ref$end >= APC[1] & ref$start <= APC[2]; apcl <- if (length(i) == 1) mean(cna[apc, i] == 1) > 0.5 else mean(colMeans(cna[apc, i, drop = FALSE] == 1) > 0.5)
     out <- c(out, sprintf("%s n=%d (%s); 17q loss %.0f%%, 5q loss %.0f%%, APC bins loss %.0f%%", k, length(i), paste(names(t), t, collapse = "/"), 100*q17, 100*q5, 100*apcl)) }
   paste(out, collapse = "<br>") }
-add("chosen K", "2 (fixed, outlier CRC01_ML3_085 removed, unscaled latent)", sprintf("%d (documented procedure, no outlier removal)", new_lab$K_hat[1]))
+add("chosen K", "2 (fixed, outlier CRC01_ML3_085 removed, unscaled 200-dim latent)", "2 (fixed, unscaled 200-dim latent on the 196 QC-passing cells; same recipe, no outlier step needed)")
 add("clone sizes, site composition, defining events", desc(cl_old, S$before$cna, S$before$ref), desc(cl_new, S$after$cna, S$after$ref))
 add("ARI(before labels, after labels) on shared cells", "", sprintf("%.3f (n = %d)", mclust::adjustedRandIndex(cl_old[intersect(names(cl_old), names(cl_new))], cl_new[intersect(names(cl_old), names(cl_new))]), length(intersect(names(cl_old), names(cl_new)))))
 ## 3. accuracy vs bulk WGS (Fig. 4b) ---------------------------------------------------
@@ -50,6 +50,11 @@ for (sfx in c("", "_d250")) { d <- load_all_methods(sfx = sfx, exclude = if (sfx
   assign(paste0("acc", sfx, mt), sprintf("r %.3f / RMSE %.3f (n = %d)", median(pc$pearson, na.rm = TRUE), median(pc$rmse, na.rm = TRUE), nrow(pc))) } }
 add("median Pearson r / RMSE vs bulk WGS, MintCNA", get("accMintCNA"), get("acc_d250MintCNA"))
 add("median Pearson r / RMSE vs bulk WGS, MintCNA(DNA)", get("accMintCNA(DNA)"), get("acc_d250MintCNA(DNA)"))
+## 3b. Fig. 4b medians for every method (before = published files, 197 cells; after = 196 cells) ---
+d0 <- load_all_methods(sfx = "", exclude = character(0)); d1 <- load_all_methods(sfx = "_d250", exclude = EXCL)
+for (mt in names(d1$methods)) { p0 <- per_cell(d0$truth_mat, d0$methods[[mt]]); p1 <- per_cell(d1$truth_mat, d1$methods[[mt]])
+  add(paste0("Fig. 4b median r / RMSE, ", mt), sprintf("%.3f / %.3f (n = %d)", median(p0$pearson, na.rm = TRUE), median(p0$rmse, na.rm = TRUE), nrow(p0)),
+      sprintf("%.3f / %.3f (n = %d)", median(p1$pearson, na.rm = TRUE), median(p1$rmse, na.rm = TRUE), nrow(p1))) }
 ## 4. runtime ------------------------------------------------------------------------
 grab <- function(f, pat) { if (!file.exists(f)) return("pending"); x <- readLines(f, warn = FALSE); x <- x[grepl(pat, x)]; if (length(x)) paste(trimws(x), collapse = "; ") else "pending" }
 L <- "<REPRODUCE_DIR>/02_mintcna_runs/crc01/logs"; TL <- "<REPRODUCE_DIR>/02_mintcna_runs/crc01/timing/logs"

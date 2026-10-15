@@ -20,8 +20,19 @@ run <- function(file, label) {
   tb <- table(cluster = r$clusters, site = site_of(names(r$clusters))); print(addmargins(tb))
   data.table(cell = names(r$clusters), cluster = as.integer(r$clusters), K_hat = r$K_hat, set = label)
 }
-new <- run(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r/latent_z_dna_d250_197.csv"), "NEW latent_dim 250 (197 cells)")
-old <- run(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r/latent_z_dna.csv"), "OLD latent_dim 200 file, same 197 cells")
+new <- run(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r/latent_z_dna_d250_197.csv"), "NEW latent_dim 250 (197 cells), documented procedure")
+old <- run(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r/latent_z_dna.csv"), "OLD latent_dim 200 file, same cells, documented procedure")
 m <- merge(new, old, by = "cell", suffixes = c("_new", "_old"))
 cat("\nARI new vs old labels (documented procedure on both):", round(mclust::adjustedRandIndex(m$cluster_new, m$cluster_old), 3), "\n")
-fwrite(new[, .(cell, cluster, K_hat)], file.path(ROOT, "Result/CRC/subclones_d250.csv")); cat("wrote Result/CRC/subclones_d250.csv\n")
+## Labels the figure uses (author decision 2026-10-15, CRC_CLUSTER = "published"): the published recipe, k-means K = 2 on the
+## UNSCALED 200-dim latent, restricted to the 196 QC-passing cells; this reproduces the published 17-cell clone exactly.
+CLUSTER <- Sys.getenv("CRC_CLUSTER", "published")
+fig <- if (CLUSTER == "published") {
+  Z <- as.matrix(read.csv(file.path(ROOT, "Data/CRC/DNAmeth/processed_l2r/latent_z_dna.csv"), row.names = 1, check.names = FALSE))
+  EXCL <- strsplit(Sys.getenv("CRC_EXCLUDE", "CRC01_ML3_085"), ",")[[1]]; Z <- Z[!rownames(Z) %in% c("CRC01_MP1_209", EXCL), , drop = FALSE]
+  r <- cluster_latent_kmeans(Z, seed = 1, K_min = 2, K_max = 2, scale_Z = FALSE)
+  cat(sprintf("\n== FIGURE labels: published recipe on %d cells of the 200-dim latent; sizes %s\n", nrow(Z), paste(table(r$clusters), collapse = "/")))
+  print(addmargins(table(cluster = r$clusters, site = site_of(names(r$clusters)))))
+  data.table(cell = names(r$clusters), cluster = as.integer(r$clusters), K_hat = 2L)
+} else new[, .(cell, cluster, K_hat)]
+fwrite(fig, file.path(ROOT, "Result/CRC/subclones_d250.csv")); cat("wrote Result/CRC/subclones_d250.csv (", CLUSTER, ")\n")

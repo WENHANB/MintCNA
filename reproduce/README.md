@@ -30,8 +30,10 @@ Paths inside the scripts assume the layout `Simulation/cnasim/<setting>/`, `Data
 `MintCNA.R` (DNA + RNA) with its SLURM wrappers; `CAE_SCAtt_DNAmeth.py` is the AG-DCAE denoiser as run
 (latent_dim 250). `crc01/` — MintCNA on CRC01 (run of 2026-10-14): `01_ae_d250.py` (AG-DCAE on the 197 cells
 with both modalities, latent_dim 250), `02_combine_d250.R` (denoised DNA + raw RNA log2 ratios),
-`03_call_multi_d250.R` (change points, h = 15; calling at st = 3 and st = 5), `05_cluster_d250.R` (subclones by
-the Supplementary Methods procedure), `06_compare_d250.R` (comparison with the earlier run); `s*.sbatch`
+`03_call_multi_d250.R` (change points, h = 15; calling at st = 3 and st = 5), `05_cluster_d250.R` (subclones: k-means with
+K = 2 on the unscaled 200-dimensional latent of the February-2026 AG-DCAE training on the 198 cells,
+`Data/CRC/DNAmeth/processed_l2r/latent_z_dna.csv`, restricted to the 196 cells; `CAE_SCAtt_DNAmeth.py` with
+`latent_dim = 200`), `06_compare_d250.R` (comparison with the earlier run); `s*.sbatch`
 wrappers and `timing/` (the re-timed AG-DCAE stage behind Supplementary Fig. 9a). One cell (CRC01_ML3_085) is
 excluded after calling by the QC rule in Methods (smoothed log2-ratio s.d. > 3× cohort median); every
 downstream script applies it through `utils.R`.
