@@ -3,7 +3,7 @@
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![bioRxiv](https://img.shields.io/badge/bioRxiv-10.64898%2F2026.06.26.734559-b31b1b.svg)](https://doi.org/10.64898/2026.06.26.734559)
 
-MintCNA calls copy number alterations in single cells from scDNA-seq read counts or scATAC-seq fragment counts, optionally combined with scRNA-seq from the same cells. It denoises the count matrix with an attention-gated convolutional autoencoder (AG-DCAE), finds breakpoints with a multivariate change-point scan, and assigns copy-number states with a truncated Gaussian mixture model (TGMM). Method details: [Bao, Qin & Xiao, bioRxiv 2026](https://doi.org/10.64898/2026.06.26.734559).
+MintCNA calls copy number alterations in single cells from scDNA-seq read counts or scATAC-seq fragment counts, optionally combined with scRNA-seq from the same cells. It denoises the count matrix with an attention-guided denoising convolutional autoencoder (AG-DCAE), finds breakpoints with a multivariate change-point scan, and assigns copy-number states with a truncated Gaussian mixture model (TGMM). Method details: [Bao, Qin & Xiao, bioRxiv 2026](https://doi.org/10.64898/2026.06.26.734559).
 
 ![MintCNA overview](docs/figures/figure1_overview.png)
 
@@ -14,7 +14,7 @@ MintCNA calls copy number alterations in single cells from scDNA-seq read counts
 | MintCNA<sup>ATAC</sup> | scATAC-seq | — | `mode: dna`, `preprocessing.modality: atac` |
 | MintCNA<sup>ATAC+RNA</sup> | scATAC-seq | scRNA-seq | `mode: multi`, `preprocessing.modality: atac` |
 
-**Contents:** [Installation](#installation) · [Tutorial](#tutorial) · [Your own data](#your-own-data) · [Parameters](#parameters) · [scATAC-seq input](#scatac-seq-input-10x-multiome) · [Output](#output) · [Citation](#citation)
+**Contents:** [Installation](#installation) · [System requirements](#system-requirements) · [Tutorial](#tutorial) · [Your own data](#your-own-data) · [Parameters](#parameters) · [scATAC-seq input](#scatac-seq-input-10x-multiome) · [Output](#output) · [Reproducing the paper](#reproducing-the-paper) · [Citation](#citation)
 
 ## Installation
 
@@ -29,6 +29,16 @@ Rscript -e 'install.packages("InspectChangepoint", repos = "https://cloud.r-proj
 ```
 
 For a GPU, set `denoise.device: "cuda"` in the config and use a `pytorch-cuda` build in place of `cpuonly` in `environment.yml`.
+
+`environment.yml` pins the versions used for the paper (Python 3.10, PyTorch 2.9, R 4.4); `environment.lock.yml` is the complete solve of an environment that ran the demo end to end.
+
+## System requirements
+
+Tested on Red Hat Enterprise Linux 9.8 (x86_64) with R 4.4.3, Python 3.10 and PyTorch 2.8–2.9 (CPU builds). Other Linux distributions that run conda are expected to work; macOS and Windows have not been tested.
+
+Hardware: no special hardware is needed. The demo (100 cells, 100-kb bins, chromosomes 1–22) runs end to end in 15–30 minutes on 4 CPU cores with 24 GB RAM (AMD EPYC 75F3). A GPU is optional and only accelerates the denoising step.
+
+Typical install time: about 10 minutes (8 minutes for `conda env create -f environment.yml`, under a minute for the InspectChangepoint package).
 
 ## Tutorial
 
@@ -91,7 +101,7 @@ mode: "multi"
 bash scripts/mintcna.sh --config demo/demo_config.yaml
 ```
 
-About 10–12 minutes on 4 CPU cores (preprocessing → AG-DCAE → segmentation → calling). On a SLURM cluster where R and PyTorch are separate modules, use `sbatch demo/test_pipeline.sbatch` instead.
+About 15–30 minutes on 4 CPU cores (preprocessing → AG-DCAE → segmentation → calling): 15 min inside the conda environment, 26–30 min when R and PyTorch are loaded as separate cluster modules. On a SLURM cluster where R and PyTorch are separate modules, use `sbatch demo/test_pipeline.sbatch` instead.
 
 **4. Results** land in `demo/output/mintcna_results.RData`:
 
@@ -195,6 +205,10 @@ calling:
 | `subclones` | Cell → subclone assignment |
 
 Also written: the denoised matrix (`ae_dna.csv`) and latent embedding (`latent_z.csv`).
+
+## Reproducing the paper
+
+`reproduce/` holds the scripts that generated every result and figure in the paper (simulation, benchmark runs of all compared methods, evaluation, Figures 2–5 and Supplementary Figures 1–9), with a README that gives the order. The simulated datasets are deposited on Zenodo (see the paper's Data availability statement).
 
 ## Citation
 
