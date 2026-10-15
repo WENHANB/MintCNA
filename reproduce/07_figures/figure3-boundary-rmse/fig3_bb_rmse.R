@@ -31,7 +31,7 @@ set.seed(1)                                                    # jitter is repro
 prep <- function(d, ycol) {
   d <- d[method %in% ORD & !is.na(get(ycol))]
   d[, method := factor(method, levels = ORD)]
-  d[, cov_f := factor(coverage, levels = c(0.05, 0.1, 0.2), labels = c("Coverage: 0.05X", "Coverage: 0.1X", "Coverage: 0.2X"))]
+  d[, cov_f := factor(coverage, levels = c(0.05, 0.1, 0.2), labels = c("0.05×", "0.1×", "0.2×"))]
   d[, noi_f := factor(noise, levels = c(0, 0.05, 0.1), labels = c("Noise: 0", "Noise: 0.05", "Noise: 0.1"))]
   d[, x_pt := as.numeric(method) - 0.18 + runif(.N, -0.06, 0.06)]
   d

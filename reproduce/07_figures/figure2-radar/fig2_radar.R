@@ -39,7 +39,7 @@ rad[, metric := factor(metric, levels = SPOKES)]
 rad[, angle := (as.integer(metric) - 1) * 2 * pi / length(SPOKES)]   # P at 3 o'clock, anticlockwise
 rad[, `:=`(x = value * cos(angle), y = value * sin(angle))]
 rad[, method := factor(method, levels = ORD)]
-rad[, cov_f := factor(coverage, levels = c(0.05, 0.1, 0.2), labels = c("Coverage: 0.05", "Coverage: 0.1", "Coverage: 0.2"))]
+rad[, cov_f := factor(coverage, levels = c(0.05, 0.1, 0.2), labels = c("0.05×", "0.1×", "0.2×"))]
 rad[, noi_f := factor(noise, levels = c(0, 0.05, 0.1), labels = c("Noise: 0", "Noise: 0.05", "Noise: 0.1"))]
 setorder(rad, cov_f, noi_f, method, metric)
 closed <- rad[, rbind(.SD, .SD[1]), by = .(cov_f, noi_f, method), .SDcols = c("x", "y")]
