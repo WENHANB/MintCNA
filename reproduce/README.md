@@ -1,6 +1,7 @@
 # Reproducing the paper
 
-Scripts that generated every result and figure in Bao, Qin & Xiao (MintCNA). They are the scripts
+Scripts behind the results and figures of Bao, Qin & Xiao (MintCNA): the MintCNA runs in multi-omics mode,
+the compared methods, the evaluation and the figures. They are the scripts
 that were run, copied from the analysis tree; the only edits are that absolute paths were replaced by
 placeholders and that paths to other scripts point inside this folder. Run
 `bash reproduce/set_root.sh <project-root> <R-library>` once: it fills in the placeholders

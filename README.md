@@ -208,7 +208,7 @@ Also written: the denoised matrix (`ae_dna.csv`) and latent embedding (`latent_z
 
 ## Reproducing the paper
 
-`reproduce/` holds the scripts that generated every result and figure in the paper (simulation, benchmark runs of all compared methods, evaluation, Figures 2–5 and Supplementary Figures 1–9), with a README that gives the order. The simulated datasets are deposited on Zenodo (see the paper's Data availability statement).
+`reproduce/` holds the scripts behind the results and figures of the paper (simulation, MintCNA runs in multi-omics mode, benchmark runs of all compared methods, evaluation, Figures 2–5 and Supplementary Figures 1–9), with a README that gives the order. The simulated datasets are deposited on Zenodo (see the paper's Data availability statement).
 
 ## Citation
 
