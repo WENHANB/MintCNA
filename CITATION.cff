@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use MintCNA in your research, please cite the preprint below."
+title: "MintCNA"
+type: software
+license: GPL-3.0
+repository-code: "https://github.com/WENHANB/MintCNA"
+version: 1.0.0
+date-released: "2026-10-23"
+authors:
+  - family-names: Bao
+    given-names: Wenhan
+    affiliation: "Department of Biostatistics, College of Public Health and Health Professions and College of Medicine, University of Florida"
+  - family-names: Xiao
+    given-names: Feifei
+    affiliation: "Department of Biostatistics, College of Public Health and Health Professions and College of Medicine, University of Florida"
+    email: feifeixiao@ufl.edu
+preferred-citation:
+  type: article
+  title: "MintCNA: A Unified Framework for Integrative Copy Number Profiling with Single-Cell Multi-Omics Data"
+  authors:
+    - family-names: Bao
+      given-names: Wenhan
+    - family-names: Xiao
+      given-names: Feifei
+  journal: bioRxiv
+  year: 2026
+  doi: 10.64898/2026.06.26.734559
+  url: https://doi.org/10.64898/2026.06.26.734559

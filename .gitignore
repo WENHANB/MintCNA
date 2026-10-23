@@ -1,0 +1,17 @@
+# Python build artifacts
+__pycache__/
+*.pyc
+
+# R / scratch
+tmp/
+.Rhistory
+.RData
+.Rproj.user/
+
+# Demo run outputs (large, regenerable) and SLURM logs
+demo/output/
+demo/test_*.out
+demo/test_*.err
+
+# OS
+.DS_Store

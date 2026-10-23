@@ -1,0 +1,118 @@
+# MintCNA on CARE P106T1 (oligodendroglioma, 10x Multiome ATAC+RNA)
+#
+# The DNA arm receives scATAC bin counts instead of scDNA read counts. That
+# substitution is the experiment; everything after preprocessing is untouched.
+# Every value that departs from the MintCNA default is marked and justified.
+
+input:
+  dna_counts:     "Data/mintcna_input/P106T1/atac_counts.csv"
+  bin_annotation: "Data/mintcna_input/P106T1/bin_annotation.csv"
+  cell_types:     "Data/mintcna_input/P106T1/cell_types.tsv"
+  rna_counts:     "Data/mintcna_input/P106T1/rna_counts.tsv"
+  gene_annotation: "Data/mintcna_input/P106T1/gene_annotation.tsv"
+  genome:         "hg38"          # not hg19: CARE is aligned to GRCh38
+
+output:
+  dir:    "Result/MintCNA/P106T1_atac"
+  prefix: "P106T1"
+
+mode: "dna"                       # ATAC only: the ablation arm
+
+preprocessing:
+  modality:        "atac"         # NOT default -- selects run_atac_preprocessing()
+  gc_filter_min:   0.2            # default; inert at 500 kb (observed range .337-.594)
+  gc_filter_max:   0.8            # default
+  mappability_min: 0.5            # NOT default. 0.9 is a 5 kb threshold; the 500 kb
+                                  #   average is 0.886 genome-wide, so 0.9 sits inside
+                                  #   the bulk of the distribution and drops 62% of bins.
+                                  #   0.5 is AtaCNV's published ATAC criterion.
+  blacklist_max:   0.9            # ATAC-only, and deliberately loose: blacklisted
+                                  #   fragments are masked when the counts are built, and
+                                  #   tumour and reference lose the same positions, so
+                                  #   this only drops windows with too little left.
+  valid_min:       0.5            # ATAC-only. Fraction of the window carrying GC/mapp;
+                                  #   215 bins on centromeres/assembly gaps fail it.
+  max_zero_frac:   0.85           # ATAC-only. epiAneufinder's sparse-bin default.
+  gc_correction:   false          # recorded, not omitted. Measured cost of turning it on:
+                                  #   cell-wise LOESS 0.173 -> 0.149, pooled LOESS -> 0.143,
+                                  #   stratified median scaling -> 0.146. See
+                                  #   Code/prep/test_gc_correction.R
+  pseudocount:     1              # ATAC-only. Poisson pseudocount in COUNT space. The DNA
+                                  #   eps=0.01 lives in CPM space, where a zero bin gives
+                                  #   log2 = -14. Measured: a=1 > 0.5 > 0.1.
+  keep_normal:     false          # reference nuclei leave the L2R output, as in DNA
+  smooth:          false          # NOT default. modSaRa2::smooth is outlier clipping; in
+                                  #   ATAC the upper tail is real accessibility, and
+                                  #   AG-DCAE is the denoiser.
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  stride: 1
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  cbam_reduction: 4
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 100
+  test_size: 0.2
+  random_state: 30
+
+segmentation:
+  simT: 10                        # NOT default (1). The null sets tau and hence every
+                                  #   change-point; at simT=1 its 95th percentile has ~16%
+                                  #   Monte-Carlo CV, at 10 it is ~5%. Computed once per scan.
+  seed: 1                         # the null is simulated — without a seed two scans of the
+                                  #   same data gave tau 2.23 vs 1.69
+  mc_cores: 30                    # cells are independent once the null is fixed;
+                                  #   mclapply over them. Verified bit-identical to serial.
+  h: 15                           # 15 bins x 500 kb = 15 Mb scan window. Swept on the three
+                                  #   samples with matched WGS: mean Pearson 0.740 (h=5),
+                                  #   0.805 (10), 0.814 (15), 0.814 (20) -- every h=5 config
+                                  #   scored below every h=10 and h=15 config, no reversal,
+                                  #   and the curve is flat by 15. See Notes/parameter_sweeps.md.
+                                  #   The cost is that the scan visits seq(h+1, n-h), so 2h
+                                  #   positions per chromosome are never examined: 12.5% of the
+                                  #   genome at h=15, and 45% of chr21/chr22.
+  penalty: "l2"
+  alpha: 0.05                     # NOT default (0.30). Events here are whole-arm
+                                  #   (1p = 236 bins, 19q = 61), so few confident
+                                  #   breakpoints; 0.30 fragments a truncal arm loss.
+                                  #   0.10 beat 0.05 at every h tried -- but that sweep ran on the
+                                  #   BUGGED null, whose tau was 14-18% too strict, so 0.10 was
+                                  #   compensating for it. With the null fixed, alpha = 0.05 gives
+                                  #   tau within 3.3% (median) of what 0.10 used to give, and
+                                  #   reproduces every published number to within 0.008 Pearson;
+                                  #   alpha = 0.10 on the fixed null is looser and slightly worse
+                                  #   (median r 0.788 against 0.798). See Notes/parameter_sweeps.md.
+  lambda: null
+  ridge_lambda: null
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3                     # NOT default (5): del / nor / dup
+  eps: 0.20                       # neutral band, both sides, ON THE QN SCALE (the DNA arm's
+                                  #   sd_target is 0.691, so 0.20 is ~0.29 SD) -- NOT on raw
+                                  #   log2. Tied with 0.25 at h=15 and won at h=10; 0.15 calls
+                                  #   47% of the genome altered against 35% for 0.20.
+                                  #   This used to exist only as a --eps flag, with the runner
+                                  #   falling back to a hardcoded 0.30 when it was absent, so a
+                                  #   config-only run silently used a value nothing had chosen.
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"
+  n_clusters: null
+
+visualization:
+  heatmap: true

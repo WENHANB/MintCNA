@@ -1,0 +1,37 @@
+# MintCNA conda environment: Python (AG-DCAE denoiser) + R (preprocessing,
+# segmentation, calling, plotting).   conda env create -f environment.yml
+#
+# One R package is not on conda; install it once inside the env:
+#   Rscript -e 'install.packages("InspectChangepoint", repos = "https://cloud.r-project.org")'
+#
+# GPU: replace `cpuonly` with a pytorch-cuda build (see https://pytorch.org) and
+# set denoise.device: "cuda" in the config.
+name: mintcna
+channels:
+  - conda-forge
+  - bioconda
+  - pytorch
+dependencies:
+  # ---- Python ---- (versions used for the paper; see environment.lock.yml for the full solve)
+  - python=3.10
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - pytorch=2.9
+  - cpuonly
+  # ---- R ----
+  - r-base=4.4
+  - r-yaml
+  - r-optparse
+  - r-data.table
+  - r-matrixstats
+  - r-mclust
+  - r-cluster
+  - r-dlm
+  - r-softimpute
+  - r-mass            # dependency of InspectChangepoint; prebuilt here so no compiler is needed
+  - bioconductor-genomicranges
+  - bioconductor-iranges
+  - bioconductor-edger

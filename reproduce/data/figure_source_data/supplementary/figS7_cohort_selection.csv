@@ -1,0 +1,49 @@
+care_id,patient,timepoint,subtype,atac_nuclei,bulk_wgs,analysed
+P100T1,P100,Initial,Oligodendroglioma,2145,yes,TRUE
+P100T3,P100,2nd Recurrence,Oligodendroglioma,3733,yes,TRUE
+P103T1,P103,Initial,Oligodendroglioma,2671,yes,TRUE
+P103T2,P103,Recurrence,Oligodendroglioma,4802,yes,TRUE
+P104T1,P104,Initial,Astrocytoma,2050,yes,TRUE
+P104T2,P104,Recurrence,Astrocytoma,1992,yes,TRUE
+P105T1,P105,Initial,Oligodendroglioma,4448,yes,TRUE
+P105T3,P105,2nd Recurrence,Oligodendroglioma,3484,yes,TRUE
+P106T1,P106,Initial,Astrocytoma,3812,yes,TRUE
+P106T2,P106,Recurrence,Astrocytoma,1930,yes,TRUE
+P108T1,P108,Initial,Oligodendroglioma,4882,yes,TRUE
+P108T2,P108,Recurrence,Oligodendroglioma,4798,yes,TRUE
+P109T1,P109,Initial,Oligodendroglioma,3925,yes,TRUE
+P109T2,P109,Recurrence,Oligodendroglioma,4341,yes,TRUE
+P110T1,P110,Initial,Oligodendroglioma,4449,yes,TRUE
+P110T2,P110,Recurrence,Oligodendroglioma,2678,yes,TRUE
+P111T2,P111,Recurrence,Oligodendroglioma,3439,yes,TRUE
+P111T3,P111,2nd Recurrence,Oligodendroglioma,3242,yes,TRUE
+P59T2,P59,Recurrence,Astrocytoma,3827,yes,TRUE
+P59T3,P59,2nd Recurrence,Astrocytoma,2736,yes,TRUE
+P100T2,P100,Recurrence,Oligodendroglioma,1039,yes,FALSE
+P101T1,P101,Initial,Oligodendroglioma,9400,no,FALSE
+P101T2,P101,Recurrence,Oligodendroglioma,2904,no,FALSE
+P105T2,P105,Recurrence,Oligodendroglioma,441,yes,FALSE
+P107T1,P107,Initial,Oligodendroglioma,3841,yes,FALSE
+P107T2,P107,Recurrence,Oligodendroglioma,1309,yes,FALSE
+P111T1,P111,Initial,Oligodendroglioma,725,yes,FALSE
+P57T1,P57,Initial,Oligodendroglioma,624,yes,FALSE
+P57T2,P57,Recurrence,Oligodendroglioma,995,no,FALSE
+P59T1,P59,Initial,Astrocytoma,10,yes,FALSE
+P60T1,P60,Initial,Astrocytoma,29,yes,FALSE
+P60T2,P60,Recurrence,Astrocytoma,2652,yes,FALSE
+P61T1,P61,Initial,Astrocytoma,4111,no,FALSE
+P61T2,P61,Recurrence,Astrocytoma,2557,yes,FALSE
+P71T1,P71,Initial,Astrocytoma,5652,no,FALSE
+P71T2,P71,Recurrence,Astrocytoma,298,no,FALSE
+P73T1,P73,Initial,Astrocytoma,184,yes,FALSE
+P73T2,P73,Recurrence,Astrocytoma,10,yes,FALSE
+P79T1,P79,Initial,Astrocytoma,0,yes,FALSE
+P79T2,P79,Recurrence,Astrocytoma,144,yes,FALSE
+P80T1,P80,Initial,Oligodendroglioma,3301,yes,FALSE
+P80T2,P80,Recurrence,Oligodendroglioma,1260,yes,FALSE
+P81T1,P81,Initial,Astrocytoma,345,yes,FALSE
+P81T2,P81,Recurrence,Astrocytoma,40,yes,FALSE
+P85T1,P85,Initial,Oligodendroglioma,3226,yes,FALSE
+P85T2,P85,Recurrence,Oligodendroglioma,1882,yes,FALSE
+P91T1,P91,Initial,Astrocytoma,1804,yes,FALSE
+P91T2,P91,Recurrence,Astrocytoma,13,yes,FALSE
