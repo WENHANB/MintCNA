@@ -1,0 +1,56 @@
+# MintCNA (DNA + RNA) on CRC01 (scTrio-seq2, 100 kb bins, hg19) with the parameters of the paper:
+# h = 15, alpha = 0.05, 3 states, AG-DCAE latent 250 / 100 epochs, seed 30.
+#   bash reproduce/analysis/crc01/run_mintcna.sh      (paths are relative to <MINTCNA_DATA>)
+# The DNA bins carry CODEX2 GC content and mappability (bin_counts.R), hence mappability_min 0.9.
+input:
+  dna_counts:      "Data/CRC/mintcna_input/DNA_RC.RData"
+  bin_annotation:  null
+  cell_types:      "Data/CRC/mintcna_input/cell_types.tsv"
+  rna_counts:      "Data/CRC/mintcna_input/rna_counts.tsv"
+  gene_annotation: "Data/CRC/mintcna_input/genes.tsv"
+  genome: "hg19"
+
+output:
+  dir: "Result/CRC/MintCNA/"
+  prefix: ""
+
+mode: "multi"
+
+preprocessing:
+  gc_filter_min: 0.2
+  gc_filter_max: 0.8
+  mappability_min: 0.9
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 100
+  random_state: 30
+
+segmentation:
+  h: 15
+  penalty: "l2"
+  alpha: 0.05
+  mc_cores: 8
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"

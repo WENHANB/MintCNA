@@ -1,0 +1,103 @@
+# ============================================================
+# MintCNA Configuration
+# Copy this file, set the input paths, and run:
+#   bash scripts/mintcna.sh --config my.yaml
+# Every key below is optional except input.dna_counts and input.cell_types;
+# omitted keys take the defaults shown here.
+# ============================================================
+
+# --- Input paths ---
+input:
+  dna_counts: null                          # REQUIRED. Raw DNA read counts, bins x cells: CSV whose row
+                                            #   names encode bin location ("chr1:900000-1000000"), or an
+                                            #   .RData file holding `Y` (matrix) and `gr` (GRanges).
+                                            #   In ATAC mode (preprocessing.modality: atac) this is the
+                                            #   scATAC fragment-count matrix, same shape.
+  bin_annotation: null                      # Optional CSV of bin locations (chr, start, end). If null,
+                                            #   locations are read from the count row names. GC and
+                                            #   mappability are supplied automatically from the bundled
+                                            #   `genome` track — add gc,mapp columns here to override.
+  cell_types: null                          # REQUIRED. TSV: cell ID (col 1) + `normal` column marking the
+                                            #   normal-control (diploid reference) cells.
+  rna_counts: null                          # Raw RNA read counts, genes x cells (TSV). Enables multi mode.
+  gene_annotation: null                     # TSV: gene_id, chr, start, end (required with rna_counts).
+  genome: "hg19"                            # Bundled GC/mappability track: "hg19" or "hg38".
+
+# --- Output ---
+output:
+  dir: "output/"
+  prefix: "sample"
+
+# --- Mode ---
+# "dna" = DNA-only, "multi" = DNA+RNA. Auto-detected from rna_counts if null.
+mode: null
+
+# --- Preprocessing ---
+preprocessing:
+  modality: "dna"                           # First-arm modality: "dna" or "atac".
+  gc_filter_min: 0.2                        # Bins below this GC fraction are filtered
+  gc_filter_max: 0.8                        # Bins above this GC fraction are filtered
+  mappability_min: 0.4                      # Bins below this mappability are filtered. 0.4 suits the
+                                            #   bundled track; use ~0.9 for CODEX2-style mappability.
+  keep_normal: false                        # Keep the normal-control cells in the output matrices.
+  # ATAC-only bin filters (ignored when modality is "dna"):
+  blacklist_max: 0.9                        #   max fraction of a bin inside the ENCODE blacklist
+  valid_min: 0.5                            #   min fraction of a bin carrying a GC/mappability value
+  max_zero_frac: 0.85                       #   drop bins that are zero in more than this fraction of cells
+  pseudocount: 1                            #   Poisson pseudocount added to observed and expected counts
+
+# --- AG-DCAE Denoising (Python) ---
+denoise:
+  enabled: true
+  kernel_size: 5
+  stride: 1
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08                               # Gaussian noise std for training
+  cbam_reduction: 4
+  alpha: 0.1                                # CBAM residual gate strength
+  edge_lambda: 0.2                          # Edge-preserving loss weight
+  patience: 15                              # Early stopping patience
+  min_delta: 0.001                          # Early stopping min improvement
+  device: "cpu"                             # "cpu" or "cuda"
+  epochs: 100                               # (the demo uses 30)
+  test_size: 0.2                            # Train/test split fraction
+  random_state: 30                          # Random seed for reproducibility
+  smooth_genome: null                       # Genome-direction (local-level state space) smoothing strength
+                                            #   applied inside the scan stage. null/0 disables. A scalar
+                                            #   applies to the DNA/ATAC arm; a mapping sets each arm,
+                                            #   e.g. {DNA: 100, RNA: 0}. CLI: --smooth / --smooth-rna.
+
+# --- SaRa Segmentation ---
+segmentation:
+  h: 5                                      # Half-window of the change-point scan, in bins (CLI: --h).
+                                            #   Larger h favours long events.
+  penalty: "l2"                             # Projection penalty: "l1" or "l2"
+  alpha: 0.05                               # Breakpoint threshold (CLI: --alpha): tau = (1 - alpha) quantile of
+                                            #   the empirical null. Smaller alpha = stricter = fewer breakpoints.
+  lambda: null                              # Auto: sqrt(n*log(p*log(n)))/2 (Follain 2022)
+  ridge_lambda: null                        # Auto-tuned ridge for multivariate projection
+  simT: 1                                   # Simulated null replicates per chromosome
+  seed: 1                                   # RNG seed for the empirical null
+  mc_cores: 1                               # Cores for the per-cell scan (parallel::mclapply)
+
+# --- Cross-Omics Fusion (multi mode only) ---
+fusion:
+  method: "coverage_proportional"           # Weighting method
+  em_iterations: 30                         # EM iterations for CNV clustering
+
+# --- TGMM CNA Calling ---
+calling:
+  n_states: 5                               # Number of CNA states: 3 (loss/neutral/gain) or 5 (CLI: --st)
+  eps: 0.30                                 # Neutral band for the 3-state model, on the QN scale: |segment mean|
+                                            #   < eps -> neutral. Larger eps = fewer alterations. (CLI: --eps, or
+                                            #   --eps0 / --eps1 for the loss / gain side separately)
+  max_iter: 500                             # Max EM iterations
+  convergence_tol: 0.001                    # EM convergence threshold
+
+# --- Clustering ---
+clustering:
+  enabled: true
+  method: "kmeans"                          # "kmeans" or "hierarchical"
+  n_clusters: null                          # Auto-select if null

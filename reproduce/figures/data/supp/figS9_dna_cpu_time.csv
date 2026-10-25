@@ -1,0 +1,17 @@
+dataset,method,cpu_min
+Simulation (N = 100 cells),MintCNA,28
+Simulation (N = 100 cells),MintCNA(DNA),26
+Simulation (N = 100 cells),SCOPE,390
+Simulation (N = 100 cells),HMMcopy,4
+Simulation (N = 100 cells),SCONCE,343
+Simulation (N = 100 cells),SCCNV,166
+Simulation (N = 100 cells),rcCAE,25
+Simulation (N = 100 cells),SCICoNE,6
+Colorectal cancer (scTrio-seq2),MintCNA,64
+Colorectal cancer (scTrio-seq2),MintCNA(DNA),68
+Colorectal cancer (scTrio-seq2),SCOPE,618
+Colorectal cancer (scTrio-seq2),HMMcopy,8
+Colorectal cancer (scTrio-seq2),SCONCE,505
+Colorectal cancer (scTrio-seq2),SCCNV,341
+Colorectal cancer (scTrio-seq2),rcCAE,45
+Colorectal cancer (scTrio-seq2),SCICoNE,14

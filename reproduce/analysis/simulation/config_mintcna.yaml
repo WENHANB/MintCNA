@@ -1,0 +1,56 @@
+# MintCNA on one simulation setting, with the parameters used for the simulation study:
+# 100 kb bins, h = 5, alpha = 0.30, 3 states, AG-DCAE latent 250 / 100 epochs, seed 30.
+# run_mintcna.sh substitutes __SETTING__ and runs this twice: as written (DNA + RNA) and with
+# mode "dna" (DNA only). Paths are relative to <MINTCNA_DATA>, where run_mintcna.sh executes.
+input:
+  dna_counts:      "Simulation/cnasim/__SETTING__/DNA_RC.RData"
+  bin_annotation:  null
+  cell_types:      "Simulation/cnasim/__SETTING__/mintcna_input/cell_types.tsv"
+  rna_counts:      "Simulation/cnasim/__SETTING__/mintcna_input/rna_counts.tsv"
+  gene_annotation: "Simulation/cnasim/__SETTING__/mintcna_input/genes.tsv"
+  genome: "hg38"
+
+output:
+  dir: "Simulation/cnasim/__SETTING__/mintcna_multi/"
+  prefix: ""
+
+mode: "multi"
+
+preprocessing:
+  gc_filter_min: 0.2
+  gc_filter_max: 0.8
+  mappability_min: 0.9          # CODEX2 mappability (0-1), see make_mintcna_input.R
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 100
+  random_state: 30
+
+segmentation:
+  h: 5
+  penalty: "l2"
+  alpha: 0.30
+  mc_cores: 8
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"

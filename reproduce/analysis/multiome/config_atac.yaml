@@ -1,0 +1,72 @@
+# MintCNA (ATAC only) on one CARE glioma 10x Multiome sample: the ablation arm of the paper. Identical to
+# config_multiome_multi.yaml except mode and output directory; run_multiome.sh links the AG-DCAE output of
+# the multi run into Result/MintCNA/<sample>_atac so the two arms share one denoising.
+# Paths are relative to <MINTCNA_DATA>/ATAC_RNA, where run_mintcna.sh executes.
+
+input:
+  dna_counts:      "Data/mintcna_input/P111T2/atac_counts.csv"
+  bin_annotation:  "Data/mintcna_input/P111T2/bin_annotation.csv"
+  cell_types:      "Data/mintcna_input/P111T2/cell_types.tsv"
+  rna_counts:      null
+  gene_annotation: null
+  genome:          "hg38"
+
+output:
+  dir:    "Result/MintCNA/P111T2_atac"
+  prefix: "P111T2"
+
+mode: "dna"                       # ATAC arm alone
+
+preprocessing:
+  modality:        "atac"
+  gc_filter_min:   0.2
+  gc_filter_max:   0.8
+  mappability_min: 0.5
+  blacklist_max:   0.9
+  valid_min:       0.5
+  max_zero_frac:   0.85
+  pseudocount:     1
+  keep_normal:     false
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  stride: 1
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  cbam_reduction: 4
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 100
+  test_size: 0.2
+  random_state: 30
+
+segmentation:
+  h: 15
+  penalty: "l2"
+  alpha: 0.05
+  simT: 10
+  seed: 1
+  mc_cores: 30
+  lambda: null
+  ridge_lambda: null
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3
+  eps: 0.20
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"
+  n_clusters: null

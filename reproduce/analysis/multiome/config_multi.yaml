@@ -1,0 +1,72 @@
+# MintCNA (ATAC + RNA) on one CARE glioma 10x Multiome sample. This is the configuration used for all
+# 20 samples of the paper; run_mintcna.sh substitutes the sample id (P111T2 here) and runs the pipeline.
+# Paths are relative to <MINTCNA_DATA>/ATAC_RNA, where run_mintcna.sh executes.
+# Every value that departs from the package default (config/default_config.yaml) is marked.
+
+input:
+  dna_counts:      "Data/mintcna_input/P111T2/atac_counts.csv"      # scATAC fragment counts, 500 kb bins x nuclei
+  bin_annotation:  "Data/mintcna_input/P111T2/bin_annotation.csv"
+  cell_types:      "Data/mintcna_input/P111T2/cell_types.tsv"
+  rna_counts:      "Data/mintcna_input/P111T2/rna_counts.tsv"
+  gene_annotation: "Data/mintcna_input/P111T2/gene_annotation.tsv"
+  genome:          "hg38"
+
+output:
+  dir:    "Result/MintCNA/P111T2_multi"
+  prefix: "P111T2"
+
+mode: "multi"                     # ATAC + RNA on the same nuclei
+
+preprocessing:
+  modality:        "atac"         # scATAC fragment counts in the first arm
+  gc_filter_min:   0.2
+  gc_filter_max:   0.8
+  mappability_min: 0.5            # AtaCNA's published ATAC criterion, on 500 kb windows
+  blacklist_max:   0.9            # ATAC-only: windows with more than this fraction in the ENCODE blacklist are dropped
+  valid_min:       0.5            # ATAC-only: windows carrying GC/mappability on less than this fraction are dropped
+  max_zero_frac:   0.85           # ATAC-only: windows that are zero in more than this fraction of nuclei are dropped
+  pseudocount:     1              # ATAC-only: Poisson pseudocount added to observed and expected counts
+  keep_normal:     false
+
+denoise:
+  enabled: true
+  kernel_size: 5
+  stride: 1
+  batch_size: 16
+  learning_rate: 0.0001
+  latent_dim: 250
+  sigma: 0.08
+  cbam_reduction: 4
+  alpha: 0.1
+  edge_lambda: 0.2
+  patience: 15
+  min_delta: 0.001
+  device: "cpu"
+  epochs: 100
+  test_size: 0.2
+  random_state: 30
+
+segmentation:
+  h: 15                           # 15 bins x 500 kb; the events here are arm-level
+  penalty: "l2"
+  alpha: 0.05
+  simT: 10                        # null replicates per chromosome
+  seed: 1
+  mc_cores: 30                    # cells are scanned in parallel; any value gives the same result
+  lambda: null
+  ridge_lambda: null
+
+fusion:
+  method: "coverage_proportional"
+  em_iterations: 30
+
+calling:
+  n_states: 3                     # loss / neutral / gain
+  eps: 0.20                       # neutral band on the quantile-normalised scale
+  max_iter: 500
+  convergence_tol: 0.001
+
+clustering:
+  enabled: true
+  method: "kmeans"
+  n_clusters: null
